@@ -291,6 +291,15 @@
       box-shadow: 0 2px 10px rgba(15, 79, 63, 0.08);
     }
 
+    .language-select {
+      min-height: 38px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--ink);
+      padding: 0 10px;
+    }
+
     .ghost-btn, .primary-btn, .icon-btn {
       min-height: 38px;
       border-radius: 8px;
@@ -951,38 +960,38 @@
         </div>
         <div>
           <h1>Mind Loom — 边缘与回声</h1>
-          <p>把丰沛想法织成清晰路径</p>
+          <p data-i18n="brandSubtitle">把丰沛想法织成清晰路径</p>
         </div>
       </div>
 
       <nav class="nav" aria-label="主要区域">
         <button class="active" data-view="desk">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h10"></path></svg>
-          梳理台
+          <span data-i18n="navDesk">梳理台</span>
         </button>
         <button data-view="board">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"></path><path d="M15 4v16"></path></svg>
-          结构板
+          <span data-i18n="navBoard">结构板</span>
         </button>
         <button data-view="library">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"></path><path d="M8 4v13a3 3 0 0 0 3 3"></path></svg>
-          灵感库
+          <span data-i18n="navLibrary">灵感库</span>
         </button>
       </nav>
 
       <section class="account-box">
-        <h2>身份</h2>
+        <h2 data-i18n="identityTitle">身份</h2>
         <p id="accountStatus">正在创建匿名空间...</p>
         <div class="account-form">
-          <input class="account-input" id="emailInput" type="email" autocomplete="email" placeholder="邮箱登录，可跨设备保存">
-          <button class="account-btn" id="loginBtn">登录 / 创建账号</button>
-          <button class="account-btn" id="logoutBtn">退出登录</button>
+          <input class="account-input" id="emailInput" type="email" autocomplete="email" data-i18n-placeholder="emailPlaceholder" placeholder="邮箱登录，可跨设备保存">
+          <button class="account-btn" id="loginBtn" data-i18n="loginBtn">登录 / 创建账号</button>
+          <button class="account-btn" id="logoutBtn" data-i18n="logoutBtn">退出登录</button>
         </div>
-        <a class="account-link" href="/privacy" target="_blank" rel="noreferrer">隐私政策</a>
+        <a class="account-link" href="/privacy" target="_blank" rel="noreferrer" data-i18n="privacyLink">隐私政策</a>
       </section>
 
       <section class="library-mini">
-        <h2>最近保存</h2>
+        <h2 data-i18n="recentSaved">最近保存</h2>
         <div class="saved-list" id="savedList"></div>
       </section>
     </aside>
@@ -994,15 +1003,20 @@
           <p id="viewSubtitle">不用完整、不用有逻辑，也不用马上变好。这里会先接住，再慢慢帮你分层。</p>
         </div>
         <div class="toolbar">
-          <div class="segmented" role="group" aria-label="思考模式">
-            <button class="active" data-mode="gentle">轻柔整理</button>
-            <button data-mode="logic">逻辑推演</button>
-            <button data-mode="creative">创意发散</button>
+          <div class="segmented" role="group" aria-label="思考模式" data-i18n-aria="modeGroup">
+            <button class="active" data-mode="gentle" data-i18n="modeGentle">轻柔整理</button>
+            <button data-mode="logic" data-i18n="modeLogic">逻辑推演</button>
+            <button data-mode="creative" data-i18n="modeCreative">创意发散</button>
           </div>
-          <button class="icon-btn" id="sampleBtn" data-tip="放入示例" aria-label="放入示例">
+          <select class="language-select" id="languageSelect" aria-label="Language">
+            <option value="zh">中文</option>
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+          </select>
+          <button class="icon-btn" id="sampleBtn" data-tip="放入示例" data-i18n-tip="sampleTip" aria-label="放入示例" data-i18n-aria="sampleTip">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"></path><path d="M3 12h18"></path></svg>
           </button>
-          <button class="icon-btn" id="exportBtn" data-tip="导出摘要" aria-label="导出摘要">
+          <button class="icon-btn" id="exportBtn" data-tip="导出摘要" data-i18n-tip="exportTip" aria-label="导出摘要" data-i18n-aria="exportTip">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
           </button>
         </div>
@@ -1014,81 +1028,81 @@
             <section class="panel">
               <div class="panel-header">
                 <div>
-                  <h3>安全倾倒区</h3>
-                  <p>想到什么写什么，矛盾、跳跃、重复都可以。</p>
+                  <h3 data-i18n="safeZoneTitle">安全倾倒区</h3>
+                  <p data-i18n="safeZoneSub">想到什么写什么，矛盾、跳跃、重复都可以。</p>
                 </div>
               </div>
               <div class="panel-body input-stack">
-                <div class="safe-note">这里不会评价你写得乱不乱。你可以先把画面、担心、灵感和没说完的半句话都放下。</div>
+                <div class="safe-note" data-i18n="safeNote">这里不会评价你写得乱不乱。你可以先把画面、担心、灵感和没说完的半句话都放下。</div>
                 <div class="trust-strip" aria-label="使用说明">
                   <div class="trust-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    匿名或登录后保存到数据库
+                    <span data-i18n="trustSave">匿名或登录后保存到数据库</span>
                   </div>
                   <div class="trust-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>
-                    不评价、不打分、不诊断
+                    <span data-i18n="trustNoJudge">不评价、不打分、不诊断</span>
                   </div>
                   <div class="trust-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4"></path><path d="M12 16h.01"></path><circle cx="12" cy="12" r="10"></circle></svg>
-                    适合思路整理，不替代专业帮助
+                    <span data-i18n="trustNotTherapy">适合思路整理，不替代专业帮助</span>
                   </div>
                 </div>
                 <div class="prompt-grid" aria-label="快速开始">
-                  <button class="prompt-btn" data-target="field-noise" data-prompt="我脑子里现在最吵的是：">我脑子里现在最吵的是</button>
-                  <button class="prompt-btn" data-target="field-idea" data-prompt="我有一个想法，但还没想清楚：">我有一个想法，但还没想清楚</button>
-                  <button class="prompt-btn" data-target="field-need" data-prompt="我不确定自己为什么在意这件事：">我不确定自己为什么在意</button>
+                  <button class="prompt-btn" data-target="field-noise" data-prompt="我脑子里现在最吵的是：" data-i18n="promptNoise">我脑子里现在最吵的是</button>
+                  <button class="prompt-btn" data-target="field-idea" data-prompt="我有一个想法，但还没想清楚：" data-i18n="promptIdea">我有一个想法，但还没想清楚</button>
+                  <button class="prompt-btn" data-target="field-need" data-prompt="我不确定自己为什么在意这件事：" data-i18n="promptNeed">我不确定自己为什么在意</button>
                 </div>
                 <div class="guided-grid" id="guidedInputs">
                   <div class="guided-field">
-                    <label for="field-noise">此刻最吵的念头</label>
-                    <span>不用概括，只写最先冒出来的那一句。</span>
-                    <textarea id="field-noise" data-label="此刻最吵的念头" placeholder="例如：我一直在想这件事会不会做不成..."></textarea>
+                    <label for="field-noise" data-i18n="fieldNoiseLabel">此刻最吵的念头</label>
+                    <span data-i18n="fieldNoiseHelp">不用概括，只写最先冒出来的那一句。</span>
+                    <textarea id="field-noise" data-label="此刻最吵的念头" data-i18n-placeholder="phNoise" placeholder="例如：我一直在想这件事会不会做不成..."></textarea>
                   </div>
                   <div class="guided-field">
-                    <label for="field-feeling">情绪 / 身体信号</label>
-                    <span>紧、酸、兴奋、委屈、麻木，都算线索。</span>
-                    <textarea id="field-feeling" data-label="情绪和身体信号" placeholder="例如：胸口有点紧，但也有一点期待..."></textarea>
+                    <label for="field-feeling" data-i18n="fieldFeelingLabel">情绪 / 身体信号</label>
+                    <span data-i18n="fieldFeelingHelp">紧、酸、兴奋、委屈、麻木，都算线索。</span>
+                    <textarea id="field-feeling" data-label="情绪和身体信号" data-i18n-placeholder="phFeeling" placeholder="例如：胸口有点紧，但也有一点期待..."></textarea>
                   </div>
                   <div class="guided-field">
-                    <label for="field-worry">我在担心什么</label>
-                    <span>把脑内预警写出来，它就不用一直循环。</span>
-                    <textarea id="field-worry" data-label="我在担心什么" placeholder="例如：担心别人觉得这只是普通笔记工具..."></textarea>
+                    <label for="field-worry" data-i18n="fieldWorryLabel">我在担心什么</label>
+                    <span data-i18n="fieldWorryHelp">把脑内预警写出来，它就不用一直循环。</span>
+                    <textarea id="field-worry" data-label="我在担心什么" data-i18n-placeholder="phWorry" placeholder="例如：担心别人觉得这只是普通笔记工具..."></textarea>
                   </div>
                   <div class="guided-field">
-                    <label for="field-idea">灵感 / 画面 / 可能性</label>
-                    <span>写天马行空的部分，暂时不需要可行。</span>
-                    <textarea id="field-idea" data-label="灵感、画面和可能性" placeholder="例如：我想象它像一个温柔的思考房间..."></textarea>
+                    <label for="field-idea" data-i18n="fieldIdeaLabel">灵感 / 画面 / 可能性</label>
+                    <span data-i18n="fieldIdeaHelp">写天马行空的部分，暂时不需要可行。</span>
+                    <textarea id="field-idea" data-label="灵感、画面和可能性" data-i18n-placeholder="phIdea" placeholder="例如：我想象它像一个温柔的思考房间..."></textarea>
                   </div>
                   <div class="guided-field">
-                    <label for="field-need">我真正想要的</label>
-                    <span>可能是安全感、清晰感、连接感或创造空间。</span>
-                    <textarea id="field-need" data-label="我真正想要的" placeholder="例如：我想要一种既被理解又能往前走的感觉..."></textarea>
+                    <label for="field-need" data-i18n="fieldNeedLabel">我真正想要的</label>
+                    <span data-i18n="fieldNeedHelp">可能是安全感、清晰感、连接感或创造空间。</span>
+                    <textarea id="field-need" data-label="我真正想要的" data-i18n-placeholder="phNeed" placeholder="例如：我想要一种既被理解又能往前走的感觉..."></textarea>
                   </div>
                   <div class="guided-field">
-                    <label for="field-step">现在能承受的一小步</label>
-                    <span>越小越好，小到不会让自己紧绷。</span>
-                    <textarea id="field-step" data-label="现在能承受的一小步" placeholder="例如：先写三个用户会输入的真实句子..."></textarea>
+                    <label for="field-step" data-i18n="fieldStepLabel">现在能承受的一小步</label>
+                    <span data-i18n="fieldStepHelp">越小越好，小到不会让自己紧绷。</span>
+                    <textarea id="field-step" data-label="现在能承受的一小步" data-i18n-placeholder="phStep" placeholder="例如：先写三个用户会输入的真实句子..."></textarea>
                   </div>
                   <div class="guided-field full">
-                    <label for="thoughtInput">自由补充</label>
-                    <span>还有没地方放的半句话、关系线索、冲突感，都可以倒在这里。</span>
-                    <textarea id="thoughtInput" data-label="自由补充" placeholder="直接写就好：我现在想到... 我有点担心... 但又觉得... 还有一个画面是..."></textarea>
+                    <label for="thoughtInput" data-i18n="fieldFreeLabel">自由补充</label>
+                    <span data-i18n="fieldFreeHelp">还有没地方放的半句话、关系线索、冲突感，都可以倒在这里。</span>
+                    <textarea id="thoughtInput" data-label="自由补充" data-i18n-placeholder="phFree" placeholder="直接写就好：我现在想到... 我有点担心... 但又觉得... 还有一个画面是..."></textarea>
                   </div>
                 </div>
                 <div class="control-row">
                   <label class="range-control">
-                    心力余量
+                    <span data-i18n="energyLabelText">心力余量</span>
                     <input id="energyRange" type="range" min="1" max="5" value="3">
                     <span id="energyLabel">中等</span>
                   </label>
                   <label class="toggle">
                     <input id="calmToggle" type="checkbox">
-                    低刺激模式
+                    <span data-i18n="calmMode">低刺激模式</span>
                   </label>
                   <button class="primary-btn" id="analyzeBtn">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M8 14a6 6 0 1 1 8 0c-.7.6-1 1.2-1 2H9c0-.8-.3-1.4-1-2z"></path></svg>
-                    开始梳理
+                    <span data-i18n="analyzeBtn">开始梳理</span>
                   </button>
                 </div>
               </div>
@@ -1097,12 +1111,12 @@
             <section class="panel">
               <div class="panel-header">
                 <div>
-                  <h3>先被理解</h3>
-                  <p>结果会先给你一个温柔概括，再进入结构。</p>
+                  <h3 data-i18n="understoodTitle">先被理解</h3>
+                  <p data-i18n="understoodSub">结果会先给你一个温柔概括，再进入结构。</p>
                 </div>
                 <button class="ghost-btn" id="saveBtn">
                   <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg>
-                  保存
+                  <span data-i18n="saveBtn">保存</span>
                 </button>
               </div>
               <div class="panel-body">
@@ -1117,8 +1131,8 @@
               </div>
               <div class="feedback-panel">
                 <div>
-                  <h4>这次整理有帮助吗？</h4>
-                  <p>给真实用户测试时，可以请他们在这里留下一句话。反馈会保存到数据库；离线时暂存在当前浏览器。</p>
+                  <h4 data-i18n="feedbackTitle">这次整理有帮助吗？</h4>
+                  <p data-i18n="feedbackSub">给真实用户测试时，可以请他们在这里留下一句话。反馈会保存到数据库；离线时暂存在当前浏览器。</p>
                 </div>
                 <div class="rating-row" aria-label="帮助程度评分">
                   <button class="rating-btn" data-rating="1">1</button>
@@ -1127,15 +1141,15 @@
                   <button class="rating-btn" data-rating="4">4</button>
                   <button class="rating-btn" data-rating="5">5</button>
                 </div>
-                <textarea class="feedback-input" id="feedbackInput" placeholder="例如：哪句话让你放松了？哪里还是太分析化？你下一步会不会继续用？"></textarea>
+                <textarea class="feedback-input" id="feedbackInput" data-i18n-placeholder="feedbackPlaceholder" placeholder="例如：哪句话让你放松了？哪里还是太分析化？你下一步会不会继续用？"></textarea>
                 <div class="control-row">
                   <button class="ghost-btn" id="feedbackSaveBtn">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg>
-                    保存反馈
+                    <span data-i18n="feedbackSave">保存反馈</span>
                   </button>
                   <button class="ghost-btn" id="feedbackCopyBtn">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><rect x="2" y="2" width="13" height="13" rx="2"></rect></svg>
-                    复制反馈
+                    <span data-i18n="feedbackCopy">复制反馈</span>
                   </button>
                   <span class="feedback-status" id="feedbackStatus"></span>
                 </div>
@@ -1148,8 +1162,8 @@
           <section class="panel">
             <div class="panel-header">
               <div>
-                <h3>主题簇</h3>
-                <p>把跳跃的线索按意义归位。</p>
+                <h3 data-i18n="themeClusterTitle">主题簇</h3>
+                <p data-i18n="themeClusterSub">把跳跃的线索按意义归位。</p>
               </div>
             </div>
             <div class="panel-body columns" id="themeColumns"></div>
@@ -1158,8 +1172,8 @@
           <section class="panel">
             <div class="panel-header">
               <div>
-                <h3>理性框架</h3>
-                <p>把感受、判断和行动分开放置。</p>
+                <h3 data-i18n="frameworkTitle">理性框架</h3>
+                <p data-i18n="frameworkSub">把感受、判断和行动分开放置。</p>
               </div>
             </div>
             <div class="panel-body framework" id="framework"></div>
@@ -1170,12 +1184,12 @@
           <section class="panel">
             <div class="panel-header">
               <div>
-                <h3>灵感库</h3>
-                <p>保存的整理结果会进入数据库；后端不可用时会暂存在本机浏览器。</p>
+                <h3 data-i18n="libraryTitle">灵感库</h3>
+                <p data-i18n="librarySub">保存的整理结果会进入数据库；后端不可用时会暂存在本机浏览器。</p>
               </div>
               <button class="ghost-btn" id="clearBtn">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 15h10l1-15"></path></svg>
-                清空
+                <span data-i18n="clearBtn">清空</span>
               </button>
             </div>
             <div class="panel-body library-grid" id="libraryGrid"></div>
@@ -1205,9 +1219,129 @@
     const feedbackStatus = $("#feedbackStatus");
     const accountStatus = $("#accountStatus");
     const emailInput = $("#emailInput");
+    const languageSelect = $("#languageSelect");
 
     const storageKey = "mind-loom-demo-records";
     const feedbackStorageKey = "mind-loom-demo-feedback";
+    const i18n = {
+      zh: {
+        brandSubtitle: "把丰沛想法织成清晰路径",
+        navDesk: "梳理台", navBoard: "结构板", navLibrary: "灵感库",
+        identityTitle: "身份", recentSaved: "最近保存", emailPlaceholder: "邮箱登录，可跨设备保存",
+        loginBtn: "登录 / 创建账号", logoutBtn: "退出登录", privacyLink: "隐私政策",
+        modeGroup: "思考模式", modeGentle: "轻柔整理", modeLogic: "逻辑推演", modeCreative: "创意发散",
+        sampleTip: "放入示例", exportTip: "导出摘要",
+        safeZoneTitle: "安全倾倒区", safeZoneSub: "想到什么写什么，矛盾、跳跃、重复都可以。",
+        safeNote: "这里不会评价你写得乱不乱。你可以先把画面、担心、灵感和没说完的半句话都放下。",
+        trustSave: "匿名或登录后保存到数据库", trustNoJudge: "不评价、不打分、不诊断", trustNotTherapy: "适合思路整理，不替代专业帮助",
+        promptNoise: "我脑子里现在最吵的是", promptIdea: "我有一个想法，但还没想清楚", promptNeed: "我不确定自己为什么在意",
+        fieldNoiseLabel: "此刻最吵的念头", fieldNoiseHelp: "不用概括，只写最先冒出来的那一句。", phNoise: "例如：我一直在想这件事会不会做不成...",
+        fieldFeelingLabel: "情绪 / 身体信号", fieldFeelingHelp: "紧、酸、兴奋、委屈、麻木，都算线索。", phFeeling: "例如：胸口有点紧，但也有一点期待...",
+        fieldWorryLabel: "我在担心什么", fieldWorryHelp: "把脑内预警写出来，它就不用一直循环。", phWorry: "例如：担心别人觉得这只是普通笔记工具...",
+        fieldIdeaLabel: "灵感 / 画面 / 可能性", fieldIdeaHelp: "写天马行空的部分，暂时不需要可行。", phIdea: "例如：我想象它像一个温柔的思考房间...",
+        fieldNeedLabel: "我真正想要的", fieldNeedHelp: "可能是安全感、清晰感、连接感或创造空间。", phNeed: "例如：我想要一种既被理解又能往前走的感觉...",
+        fieldStepLabel: "现在能承受的一小步", fieldStepHelp: "越小越好，小到不会让自己紧绷。", phStep: "例如：先写三个用户会输入的真实句子...",
+        fieldFreeLabel: "自由补充", fieldFreeHelp: "还有没地方放的半句话、关系线索、冲突感，都可以倒在这里。", phFree: "直接写就好：我现在想到... 我有点担心... 但又觉得... 还有一个画面是...",
+        energyLabelText: "心力余量", energyValues: ["", "很低", "偏低", "中等", "充足", "很满"], calmMode: "低刺激模式", analyzeBtn: "开始梳理",
+        understoodTitle: "先被理解", understoodSub: "结果会先给你一个温柔概括，再进入结构。", saveBtn: "保存",
+        feedbackTitle: "这次整理有帮助吗？", feedbackSub: "给真实用户测试时，可以请他们在这里留下一句话。反馈会保存到数据库；离线时暂存在当前浏览器。",
+        feedbackPlaceholder: "例如：哪句话让你放松了？哪里还是太分析化？你下一步会不会继续用？", feedbackSave: "保存反馈", feedbackCopy: "复制反馈",
+        themeClusterTitle: "主题簇", themeClusterSub: "把跳跃的线索按意义归位。", frameworkTitle: "理性框架", frameworkSub: "把感受、判断和行动分开放置。",
+        libraryTitle: "灵感库", librarySub: "保存的整理结果会进入数据库；后端不可用时会暂存在本机浏览器。", clearBtn: "清空",
+        deskTitle: "把脑子里的东西先倒在这里", deskSubtitle: "不用完整、不用有逻辑，也不用马上变好。这里会先接住，再慢慢帮你分层。",
+        boardTitle: "结构板", boardSubtitle: "把想法放入主题簇和理性框架，方便判断与推进。",
+        libraryViewTitle: "灵感库", libraryViewSubtitle: "回看保存过的思考，观察自己的长期线索。",
+        accountLocal: "当前为本地预览模式，记录暂存在浏览器。", accountLogged: "已登录：", accountAnon: "匿名空间：",
+        loginError: "登录失败。", logoutError: "退出失败，请稍后重试。", noSaved: "暂无保存",
+        emptyLibraryTitle: "灵感库是空的", emptyLibraryText: "梳理后点击保存，就能把结果留在这里。", open: "打开", delete: "删除",
+        summaryKicker: "我先这样理解", nextNeed: "现在只需要：", emptyKicker: "欢迎先放下",
+        emptyTitle: "你不需要先想清楚，才值得被整理。", emptyText: "把脑子里的词、画面、担心、灵感都写进左边。按下“开始梳理”后，我会先给一个不评判的概括，再拆成结构。", emptyStep: "随便写下第一句。",
+        waitingTitle: "等待一段真实想法", waitingText: "写得越自然，整理结果越像你的脑内地图。", noThemesTitle: "还没有主题簇", noThemesText: "完成一次梳理后，这里会出现结构板。", noFrameworkTitle: "还没有理性框架", noFrameworkText: "事实、假设、需求和下一步会自动分区。",
+        stats: ["想法片段", "主题方向", "情绪强度", "行动清晰度"],
+        themes: { emotion: "情绪信号", creativity: "创造力", logic: "逻辑结构", action: "行动线索", value: "价值需求", risk: "风险疑问" },
+        frameworkBlocks: ["事实", "假设", "需求", "下一步", "追问"],
+        saveFeedbackFirst: "请先完成一次梳理。", savedDb: "已保存到数据库。", savedLocal: "后端不可用，已暂存在当前浏览器。", copied: "反馈已复制，可以发给产品团队。", copyFailed: "复制失败，请手动选中文字反馈。"
+      },
+      en: {
+        brandSubtitle: "Turn abundant thoughts into a clearer path",
+        navDesk: "Desk", navBoard: "Board", navLibrary: "Library",
+        identityTitle: "Identity", recentSaved: "Recent", emailPlaceholder: "Email login for cross-device saving",
+        loginBtn: "Log in / Create", logoutBtn: "Log out", privacyLink: "Privacy policy",
+        modeGroup: "Thinking mode", modeGentle: "Gentle sorting", modeLogic: "Logical view", modeCreative: "Creative spread",
+        sampleTip: "Insert sample", exportTip: "Export summary",
+        safeZoneTitle: "Safe drop zone", safeZoneSub: "Write whatever arrives. Contradictions, jumps, and repetition are welcome.",
+        safeNote: "This space will not judge how messy it is. Put down images, worries, sparks, and unfinished half-sentences.",
+        trustSave: "Saved after anonymous or email login", trustNoJudge: "No judging, scoring, or diagnosis", trustNotTherapy: "For reflection, not professional care",
+        promptNoise: "The loudest thing in my mind", promptIdea: "I have an idea, not yet clear", promptNeed: "I am not sure why I care",
+        fieldNoiseLabel: "Loudest thought right now", fieldNoiseHelp: "No need to summarize. Write the first sentence that appears.", phNoise: "Example: I keep wondering whether this will fail...",
+        fieldFeelingLabel: "Emotion / body signal", fieldFeelingHelp: "Tightness, excitement, sadness, numbness: all are clues.", phFeeling: "Example: My chest feels tight, but there is also anticipation...",
+        fieldWorryLabel: "What I am worried about", fieldWorryHelp: "Put the warning loop on the page so it can stop circling.", phWorry: "Example: I worry people will see this as just another notes app...",
+        fieldIdeaLabel: "Spark / image / possibility", fieldIdeaHelp: "Let the imaginative part be here before it has to be feasible.", phIdea: "Example: I imagine it as a gentle thinking room...",
+        fieldNeedLabel: "What I truly want", fieldNeedHelp: "Maybe safety, clarity, connection, or creative space.", phNeed: "Example: I want to feel understood and still able to move forward...",
+        fieldStepLabel: "A step I can bear now", fieldStepHelp: "Smaller is better, small enough not to tighten you.", phStep: "Example: Write three real sentences a user might enter...",
+        fieldFreeLabel: "Free notes", fieldFreeHelp: "Anything with no place yet can go here.", phFree: "Write freely: I am thinking... I worry... but I also feel...",
+        energyLabelText: "Energy", energyValues: ["", "very low", "low", "medium", "good", "full"], calmMode: "Low-stimulus mode", analyzeBtn: "Start sorting",
+        understoodTitle: "First, feel understood", understoodSub: "Results begin with a gentle read, then move into structure.", saveBtn: "Save",
+        feedbackTitle: "Was this helpful?", feedbackSub: "For user testing, invite one sentence here. Feedback saves to the database; offline it stays in this browser.",
+        feedbackPlaceholder: "Example: Which sentence helped you relax? What felt too analytical?", feedbackSave: "Save feedback", feedbackCopy: "Copy feedback",
+        themeClusterTitle: "Theme clusters", themeClusterSub: "Place jumping clues by meaning.", frameworkTitle: "Reasoning frame", frameworkSub: "Separate feeling, judgment, and action.",
+        libraryTitle: "Library", librarySub: "Saved reflections go to the database; if offline, they stay in this browser.", clearBtn: "Clear",
+        deskTitle: "Pour what is in your mind here first", deskSubtitle: "It does not need to be complete, logical, or better yet. This space holds it first, then helps you layer it.",
+        boardTitle: "Structure board", boardSubtitle: "Place thoughts into theme clusters and a reasoning frame.",
+        libraryViewTitle: "Library", libraryViewSubtitle: "Review saved reflections and notice long-term patterns.",
+        accountLocal: "Local preview mode. Records are stored in this browser.", accountLogged: "Logged in: ", accountAnon: "Anonymous space: ",
+        loginError: "Login failed.", logoutError: "Logout failed. Please try again.", noSaved: "No saved items",
+        emptyLibraryTitle: "Library is empty", emptyLibraryText: "After sorting, click Save to keep a result here.", open: "Open", delete: "Delete",
+        summaryKicker: "My first read", nextNeed: "Now only this: ", emptyKicker: "Welcome. Put it down first.",
+        emptyTitle: "You do not need to be clear before you deserve structure.", emptyText: "Write words, images, worries, and sparks on the left. After sorting, I will give a nonjudgmental read and then structure it.", emptyStep: "Write any first sentence.",
+        waitingTitle: "Waiting for a real thought", waitingText: "The more natural it is, the more the map will feel like yours.", noThemesTitle: "No theme clusters yet", noThemesText: "After one sorting, the board appears here.", noFrameworkTitle: "No reasoning frame yet", noFrameworkText: "Facts, assumptions, needs, and next steps will separate automatically.",
+        stats: ["Fragments", "Themes", "Emotion", "Action clarity"],
+        themes: { emotion: "Emotion signal", creativity: "Creativity", logic: "Logic", action: "Action clue", value: "Value need", risk: "Risk question" },
+        frameworkBlocks: ["Facts", "Assumptions", "Needs", "Next steps", "Questions"],
+        saveFeedbackFirst: "Please complete one sorting first.", savedDb: "Saved to database.", savedLocal: "Backend unavailable; saved in this browser.", copied: "Feedback copied for the product team.", copyFailed: "Copy failed. Please select and copy manually."
+      },
+      fr: {
+        brandSubtitle: "Transformer des pensées abondantes en chemin clair",
+        navDesk: "Atelier", navBoard: "Structure", navLibrary: "Bibliothèque",
+        identityTitle: "Identité", recentSaved: "Récents", emailPlaceholder: "Connexion par e-mail pour sauvegarder",
+        loginBtn: "Se connecter / Créer", logoutBtn: "Se déconnecter", privacyLink: "Confidentialité",
+        modeGroup: "Mode de pensée", modeGentle: "Tri doux", modeLogic: "Vue logique", modeCreative: "Expansion créative",
+        sampleTip: "Insérer un exemple", exportTip: "Exporter",
+        safeZoneTitle: "Zone de dépôt sûre", safeZoneSub: "Écrivez ce qui vient. Contradictions, sauts et répétitions sont acceptés.",
+        safeNote: "Cet espace ne juge pas le désordre. Déposez images, inquiétudes, élans et phrases inachevées.",
+        trustSave: "Sauvegarde anonyme ou connectée", trustNoJudge: "Pas de jugement, score ou diagnostic", trustNotTherapy: "Pour réfléchir, pas pour remplacer une aide professionnelle",
+        promptNoise: "Ce qui fait le plus de bruit", promptIdea: "J’ai une idée encore floue", promptNeed: "Je ne sais pas pourquoi j’y tiens",
+        fieldNoiseLabel: "Pensée la plus bruyante", fieldNoiseHelp: "Pas besoin de résumer. Écrivez la première phrase qui arrive.", phNoise: "Exemple : je me demande si cela va échouer...",
+        fieldFeelingLabel: "Émotion / signal corporel", fieldFeelingHelp: "Tension, élan, tristesse, engourdissement : tout compte.", phFeeling: "Exemple : ma poitrine est serrée, mais j’ai aussi de l’attente...",
+        fieldWorryLabel: "Ce qui m’inquiète", fieldWorryHelp: "Mettre l’alerte sur la page l’aide à arrêter de tourner.", phWorry: "Exemple : j’ai peur qu’on voie cela comme une simple app de notes...",
+        fieldIdeaLabel: "Étincelle / image / possibilité", fieldIdeaHelp: "Laissez l’imaginaire exister avant d’être faisable.", phIdea: "Exemple : je l’imagine comme une pièce de pensée douce...",
+        fieldNeedLabel: "Ce que je veux vraiment", fieldNeedHelp: "Peut-être sécurité, clarté, lien ou espace créatif.", phNeed: "Exemple : je veux me sentir compris et pouvoir avancer...",
+        fieldStepLabel: "Un pas supportable", fieldStepHelp: "Plus c’est petit, mieux c’est.", phStep: "Exemple : écrire trois phrases réelles d’utilisateur...",
+        fieldFreeLabel: "Notes libres", fieldFreeHelp: "Tout ce qui n’a pas encore de place peut aller ici.", phFree: "Écrivez librement : je pense... je crains... mais je sens aussi...",
+        energyLabelText: "Énergie", energyValues: ["", "très basse", "basse", "moyenne", "bonne", "pleine"], calmMode: "Mode doux", analyzeBtn: "Commencer",
+        understoodTitle: "D’abord, être compris", understoodSub: "Le résultat commence par une lecture douce, puis va vers la structure.", saveBtn: "Sauver",
+        feedbackTitle: "Cela vous a aidé ?", feedbackSub: "Pour un test utilisateur, laissez une phrase ici. Le retour est sauvegardé en base ; hors ligne, il reste dans ce navigateur.",
+        feedbackPlaceholder: "Exemple : quelle phrase vous a apaisé ? Qu’est-ce qui semblait trop analytique ?", feedbackSave: "Sauver le retour", feedbackCopy: "Copier le retour",
+        themeClusterTitle: "Thèmes", themeClusterSub: "Ranger les indices par sens.", frameworkTitle: "Cadre logique", frameworkSub: "Séparer ressenti, jugement et action.",
+        libraryTitle: "Bibliothèque", librarySub: "Les réflexions sauvées vont en base ; hors ligne, elles restent dans ce navigateur.", clearBtn: "Vider",
+        deskTitle: "Déposez d’abord ce qui vous traverse", deskSubtitle: "Ce n’a pas besoin d’être complet, logique ou déjà mieux. Ici, on accueille d’abord, puis on classe doucement.",
+        boardTitle: "Tableau de structure", boardSubtitle: "Placer les pensées en thèmes et en cadre logique.",
+        libraryViewTitle: "Bibliothèque", libraryViewSubtitle: "Revoir les réflexions sauvegardées et repérer les fils longs.",
+        accountLocal: "Mode aperçu local. Les notes restent dans ce navigateur.", accountLogged: "Connecté : ", accountAnon: "Espace anonyme : ",
+        loginError: "Connexion échouée.", logoutError: "Déconnexion échouée. Réessayez.", noSaved: "Aucun élément",
+        emptyLibraryTitle: "Bibliothèque vide", emptyLibraryText: "Après un tri, cliquez sur Sauver pour garder le résultat ici.", open: "Ouvrir", delete: "Supprimer",
+        summaryKicker: "Première lecture", nextNeed: "Pour l’instant : ", emptyKicker: "Bienvenue. Déposez d’abord.",
+        emptyTitle: "Vous n’avez pas besoin d’être clair pour mériter une structure.", emptyText: "Écrivez mots, images, inquiétudes et élans à gauche. Je proposerai une lecture sans jugement, puis une structure.", emptyStep: "Écrire une première phrase.",
+        waitingTitle: "En attente d’une pensée réelle", waitingText: "Plus c’est naturel, plus la carte vous ressemblera.", noThemesTitle: "Pas encore de thèmes", noThemesText: "Après un tri, le tableau apparaîtra ici.", noFrameworkTitle: "Pas encore de cadre", noFrameworkText: "Faits, hypothèses, besoins et prochaines étapes se sépareront automatiquement.",
+        stats: ["Fragments", "Thèmes", "Émotion", "Clarté d’action"],
+        themes: { emotion: "Signal émotionnel", creativity: "Créativité", logic: "Logique", action: "Piste d’action", value: "Besoin de valeur", risk: "Question de risque" },
+        frameworkBlocks: ["Faits", "Hypothèses", "Besoins", "Prochain pas", "Questions"],
+        saveFeedbackFirst: "Veuillez faire un tri d’abord.", savedDb: "Sauvegardé en base.", savedLocal: "Serveur indisponible ; sauvegardé dans ce navigateur.", copied: "Retour copié pour l’équipe produit.", copyFailed: "Copie impossible. Sélectionnez le texte manuellement."
+      }
+    };
+
+    let currentLang = localStorage.getItem("mind-loom-language") || "zh";
+    const tr = (key) => (i18n[currentLang] && i18n[currentLang][key]) || i18n.zh[key] || key;
     const sampleText = "我最近一直有很多关于一个思考工具的想法。它应该帮助高敏感、想象力强、情绪很细腻的人，把脑子里同时出现的画面、担心、灵感、关系线索和行动冲动都放下来。我想它不能太冷冰冰，也不能只是情绪日记。它需要先接住用户的感受，再把内容拆成事实、假设、需求和下一步。我担心产品会太复杂，也担心别人觉得这只是笔记软件。但我又觉得，如果它能把天马行空的创造力转成清楚的结构，可能会很有价值。下一步也许可以先做一个输入框、主题地图、逻辑框架和保存库。";
     const sampleFields = {
       "field-noise": "我最近一直有很多关于一个思考工具的想法，脑子里同时出现产品、用户、情绪和商业可能性。",
@@ -1285,6 +1419,39 @@
       localStorage.setItem(feedbackStorageKey, JSON.stringify(items));
     }
 
+    function applyLanguage() {
+      document.documentElement.lang = currentLang === "zh" ? "zh-CN" : currentLang;
+      if (languageSelect) languageSelect.value = currentLang;
+      $$("[data-i18n]").forEach((element) => {
+        element.textContent = tr(element.dataset.i18n);
+      });
+      $$("[data-i18n-placeholder]").forEach((element) => {
+        element.placeholder = tr(element.dataset.i18nPlaceholder);
+      });
+      $$("[data-i18n-aria]").forEach((element) => {
+        element.setAttribute("aria-label", tr(element.dataset.i18nAria));
+      });
+      $$("[data-i18n-tip]").forEach((element) => {
+        element.dataset.tip = tr(element.dataset.i18nTip);
+      });
+      guidedInputs().forEach((field) => {
+        if (field.id === "field-noise") field.dataset.label = tr("fieldNoiseLabel");
+        if (field.id === "field-feeling") field.dataset.label = tr("fieldFeelingLabel");
+        if (field.id === "field-worry") field.dataset.label = tr("fieldWorryLabel");
+        if (field.id === "field-idea") field.dataset.label = tr("fieldIdeaLabel");
+        if (field.id === "field-need") field.dataset.label = tr("fieldNeedLabel");
+        if (field.id === "field-step") field.dataset.label = tr("fieldStepLabel");
+        if (field.id === "thoughtInput") field.dataset.label = tr("fieldFreeLabel");
+      });
+      switchView($(".view.active")?.id?.replace("View", "") || "desk");
+      updateEnergyLabel();
+      updateAccountStatus();
+      if (current) render(current);
+      else renderEmpty();
+      renderSaved();
+      renderLibrary();
+    }
+
     function buildThoughtText() {
       return guidedInputs()
         .map((field) => {
@@ -1323,13 +1490,13 @@
 
     function updateAccountStatus() {
       if (!backendOnline) {
-        accountStatus.textContent = "当前为本地预览模式，记录暂存在浏览器。";
+        accountStatus.textContent = tr("accountLocal");
         return;
       }
       if (session?.user) {
-        accountStatus.textContent = `已登录：${session.user.email}`;
+        accountStatus.textContent = `${tr("accountLogged")}${session.user.email}`;
       } else {
-        accountStatus.textContent = `匿名空间：${(session?.anonymousId || "").slice(0, 14)}...`;
+        accountStatus.textContent = `${tr("accountAnon")}${(session?.anonymousId || "").slice(0, 14)}...`;
       }
     }
 
@@ -1473,10 +1640,10 @@
         fragments,
         themes,
         stats: [
-          { label: "想法片段", value: fragments.length },
-          { label: "主题方向", value: themes.length },
-          { label: "情绪强度", value: Math.min(5, Math.max(1, emotionScore + (energy <= 2 ? 1 : 0))) },
-          { label: "行动清晰度", value: Math.min(5, Math.max(1, actionScore + Math.floor(creativityScore / 2))) }
+          { label: tr("stats")[0], value: fragments.length },
+          { label: tr("stats")[1], value: themes.length },
+          { label: tr("stats")[2], value: Math.min(5, Math.max(1, emotionScore + (energy <= 2 ? 1 : 0))) },
+          { label: tr("stats")[3], value: Math.min(5, Math.max(1, actionScore + Math.floor(creativityScore / 2))) }
         ],
         summary: makeSummary(fragments, themes, activeMode, energy),
         signals: [
@@ -1548,10 +1715,10 @@
 
     function renderSummary(result) {
       summaryCard.innerHTML = `
-        <p class="summary-kicker">我先这样理解</p>
+        <p class="summary-kicker">${escapeHtml(tr("summaryKicker"))}</p>
         <h3 class="summary-title">${escapeHtml(result.summary.title)}</h3>
         <p class="summary-text">${escapeHtml(result.summary.text)}</p>
-        <div class="next-step"><strong>现在只需要：</strong>${escapeHtml(result.summary.step)}</div>
+        <div class="next-step"><strong>${escapeHtml(tr("nextNeed"))}</strong>${escapeHtml(result.summary.step)}</div>
       `;
     }
 
@@ -1566,7 +1733,7 @@
 
     function renderSignals(result) {
       signals.innerHTML = `
-        <p class="signal-list-title">继续分层看</p>
+        <p class="signal-list-title">${escapeHtml(currentLang === "zh" ? "继续分层看" : currentLang === "en" ? "Look in layers" : "Regarder par couches")}</p>
         ${result.signals.map((signal, index) => `
         <div class="signal" style="border-left-color: ${["var(--coral)", "var(--teal)", "var(--blue)"][index]}">
           <strong>${escapeHtml(signal.title)}</strong>
@@ -1634,11 +1801,11 @@
 
     function renderFramework(result) {
       const blocks = [
-        ["事实", result.framework.facts, "已经出现或可观察的内容"],
-        ["假设", result.framework.assumptions, "脑中推测、担心或未验证判断"],
-        ["需求", result.framework.needs, "真正想被满足的东西"],
-        ["下一步", result.framework.actions, "可以推进的一小步"],
-        ["追问", result.framework.questions, "让思路继续变清楚的问题"]
+        [tr("frameworkBlocks")[0], result.framework.facts, ""],
+        [tr("frameworkBlocks")[1], result.framework.assumptions, ""],
+        [tr("frameworkBlocks")[2], result.framework.needs, ""],
+        [tr("frameworkBlocks")[3], result.framework.actions, ""],
+        [tr("frameworkBlocks")[4], result.framework.questions, ""]
       ];
       framework.innerHTML = blocks.map(([title, items, helper]) => `
         <section class="frame-block">
@@ -1652,28 +1819,25 @@
 
     function renderEmpty() {
       summaryCard.innerHTML = `
-        <p class="summary-kicker">欢迎先放下</p>
-        <h3 class="summary-title">你不需要先想清楚，才值得被整理。</h3>
-        <p class="summary-text">把脑子里的词、画面、担心、灵感都写进左边。按下“开始梳理”后，我会先给一个不评判的概括，再拆成结构。</p>
-        <div class="next-step"><strong>现在只需要：</strong>随便写下第一句。</div>
+        <p class="summary-kicker">${escapeHtml(tr("emptyKicker"))}</p>
+        <h3 class="summary-title">${escapeHtml(tr("emptyTitle"))}</h3>
+        <p class="summary-text">${escapeHtml(tr("emptyText"))}</p>
+        <div class="next-step"><strong>${escapeHtml(tr("nextNeed"))}</strong>${escapeHtml(tr("emptyStep"))}</div>
       `;
-      stats.innerHTML = `
-        <div class="stat"><b>0</b><span>想法片段</span></div>
-        <div class="stat"><b>0</b><span>主题方向</span></div>
-        <div class="stat"><b>0</b><span>情绪强度</span></div>
-        <div class="stat"><b>0</b><span>行动清晰度</span></div>
-      `;
+      stats.innerHTML = tr("stats").map((label) => `
+        <div class="stat"><b>0</b><span>${escapeHtml(label)}</span></div>
+      `).join("");
       signals.innerHTML = `
-        <div class="empty"><div><strong>等待一段真实想法</strong><span>写得越自然，整理结果越像你的脑内地图。</span></div></div>
+        <div class="empty"><div><strong>${escapeHtml(tr("waitingTitle"))}</strong><span>${escapeHtml(tr("waitingText"))}</span></div></div>
       `;
       mapArea.innerHTML = `
-        <svg viewBox="0 0 100 100" role="img" aria-label="空白思路地图">
+        <svg viewBox="0 0 100 100" role="img" aria-label="empty thought map">
           <circle cx="50" cy="50" r="16" fill="#d9e8df"></circle>
           <path d="M34 50h32M50 34v32" stroke="#61736a" stroke-width="1.4" stroke-linecap="round"></path>
         </svg>
       `;
-      themeColumns.innerHTML = `<div class="empty"><div><strong>还没有主题簇</strong><span>完成一次梳理后，这里会出现结构板。</span></div></div>`;
-      framework.innerHTML = `<div class="empty"><div><strong>还没有理性框架</strong><span>事实、假设、需求和下一步会自动分区。</span></div></div>`;
+      themeColumns.innerHTML = `<div class="empty"><div><strong>${escapeHtml(tr("noThemesTitle"))}</strong><span>${escapeHtml(tr("noThemesText"))}</span></div></div>`;
+      framework.innerHTML = `<div class="empty"><div><strong>${escapeHtml(tr("noFrameworkTitle"))}</strong><span>${escapeHtml(tr("noFrameworkText"))}</span></div></div>`;
     }
 
     function renderSaved() {
@@ -1682,7 +1846,7 @@
           ${escapeHtml(record.title)}
           <span>${new Date(record.createdAt).toLocaleString("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
         </button>
-      `).join("") : `<div class="saved-item"><span>暂无保存</span></div>`;
+      `).join("") : `<div class="saved-item"><span>${escapeHtml(tr("noSaved"))}</span></div>`;
     }
 
     function renderLibrary() {
@@ -1699,15 +1863,15 @@
           <p><strong>${escapeHtml(record.title)}</strong></p>
           <p>${escapeHtml(record.source.slice(0, 120))}${record.source.length > 120 ? "..." : ""}</p>
           <div class="control-row">
-            <button class="ghost-btn" data-load="${record.id}">打开</button>
-            <button class="ghost-btn" data-delete="${record.id}">删除</button>
+            <button class="ghost-btn" data-load="${record.id}">${escapeHtml(tr("open"))}</button>
+            <button class="ghost-btn" data-delete="${record.id}">${escapeHtml(tr("delete"))}</button>
           </div>
         </article>
       `).join("");
     }
 
     function modeLabel(mode) {
-      return { gentle: "轻柔整理", logic: "逻辑推演", creative: "创意发散" }[mode] || "轻柔整理";
+      return { gentle: tr("modeGentle"), logic: tr("modeLogic"), creative: tr("modeCreative") }[mode] || tr("modeGentle");
     }
 
     async function saveCurrent() {
@@ -1774,9 +1938,9 @@
 
     function switchView(view) {
       const titleMap = {
-        desk: ["把脑子里的东西先倒在这里", "不用完整、不用有逻辑，也不用马上变好。这里会先接住，再慢慢帮你分层。"],
-        board: ["结构板", "把想法放入主题簇和理性框架，方便判断与推进。"],
-        library: ["灵感库", "回看保存过的思考，观察自己的长期线索。"]
+        desk: [tr("deskTitle"), tr("deskSubtitle")],
+        board: [tr("boardTitle"), tr("boardSubtitle")],
+        library: [tr("libraryViewTitle"), tr("libraryViewSubtitle")]
       };
       $$(".view").forEach((item) => item.classList.remove("active"));
       $(`#${view}View`).classList.add("active");
@@ -1786,7 +1950,7 @@
     }
 
     function updateEnergyLabel() {
-      energyLabel.textContent = ["", "很低", "偏低", "中等", "充足", "很满"][Number(energyRange.value)];
+      energyLabel.textContent = tr("energyValues")[Number(energyRange.value)];
     }
 
     $("#analyzeBtn").addEventListener("click", () => {
@@ -1827,7 +1991,7 @@
     });
     $("#feedbackSaveBtn").addEventListener("click", async () => {
       if (!current) {
-        feedbackStatus.textContent = "请先完成一次梳理。";
+        feedbackStatus.textContent = tr("saveFeedbackFirst");
         return;
       }
       await persistFeedback({
@@ -1837,7 +2001,7 @@
         rating: currentRating,
         text: feedbackInput.value.trim()
       });
-      feedbackStatus.textContent = backendOnline ? "已保存到数据库。" : "后端不可用，已暂存在当前浏览器。";
+      feedbackStatus.textContent = backendOnline ? tr("savedDb") : tr("savedLocal");
     });
     $("#loginBtn").addEventListener("click", async () => {
       try {
@@ -1849,7 +2013,7 @@
         renderSaved();
         renderLibrary();
       } catch (error) {
-        accountStatus.textContent = error.message || "登录失败。";
+        accountStatus.textContent = error.message || tr("loginError");
       }
     });
 
@@ -1862,13 +2026,13 @@
         renderSaved();
         renderLibrary();
       } catch {
-        accountStatus.textContent = "退出失败，请稍后重试。";
+        accountStatus.textContent = tr("logoutError");
       }
     });
 
     $("#feedbackCopyBtn").addEventListener("click", async () => {
       if (!current) {
-        feedbackStatus.textContent = "请先完成一次梳理。";
+        feedbackStatus.textContent = tr("saveFeedbackFirst");
         return;
       }
       const payload = [
@@ -1885,15 +2049,20 @@
       ].join("\n");
       try {
         await navigator.clipboard.writeText(payload);
-        feedbackStatus.textContent = "反馈已复制，可以发给产品团队。";
+        feedbackStatus.textContent = tr("copied");
       } catch {
-        feedbackStatus.textContent = "复制失败，请手动选中文字反馈。";
+        feedbackStatus.textContent = tr("copyFailed");
       }
     });
     $("#calmToggle").addEventListener("change", (event) => {
       $("#app").classList.toggle("low-stimulus", event.target.checked);
     });
     energyRange.addEventListener("input", updateEnergyLabel);
+    languageSelect.addEventListener("change", (event) => {
+      currentLang = event.target.value;
+      localStorage.setItem("mind-loom-language", currentLang);
+      applyLanguage();
+    });
 
     $$(".segmented button").forEach((button) => {
       button.addEventListener("click", () => {
@@ -1920,6 +2089,7 @@
     renderEmpty();
     renderSaved();
     renderLibrary();
+    applyLanguage();
     bootstrapBackend();
   </script>
 </body>
