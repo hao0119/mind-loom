@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mind Loom — 边缘与回声</title>
+  <title>Mind Loom</title>
   <style>
     :root {
       --bg: #f5f8f4;
@@ -24,6 +24,10 @@
     }
 
     * { box-sizing: border-box; }
+
+    [hidden] {
+      display: none !important;
+    }
 
     body {
       margin: 0;
@@ -164,21 +168,21 @@
       text-overflow: ellipsis;
     }
 
-    .account-box {
+    .account-box, .language-box {
       border-top: 1px solid rgba(217, 232, 223, 0.18);
       padding-top: 16px;
       display: grid;
       gap: 10px;
     }
 
-    .account-box h2 {
+    .account-box h2, .language-box h2 {
       margin: 0;
       font-size: 13px;
       color: #d9e8df;
       font-weight: 650;
     }
 
-    .account-box p {
+    .account-box p, .language-box p {
       margin: 0;
       color: #b8cec4;
       font-size: 12px;
@@ -244,13 +248,14 @@
 
     .topbar h2 {
       margin: 0;
-      font-size: 20px;
+      font-size: 18px;
       line-height: 1.2;
+      font-weight: 720;
     }
 
     .topbar p {
       margin: 5px 0 0;
-      font-size: 14px;
+      font-size: 13px;
       color: var(--muted);
     }
 
@@ -294,10 +299,16 @@
     .language-select {
       min-height: 38px;
       border-radius: 8px;
-      border: 1px solid var(--line);
-      background: #ffffff;
-      color: var(--ink);
+      border: 1px solid rgba(217, 232, 223, 0.24);
+      background: rgba(255, 255, 255, 0.09);
+      color: #ffffff;
       padding: 0 10px;
+      width: 100%;
+    }
+
+    .language-select option {
+      color: var(--ink);
+      background: #ffffff;
     }
 
     .ghost-btn, .primary-btn, .icon-btn {
@@ -362,6 +373,67 @@
       gap: 18px;
     }
 
+    .mission-strip {
+      border: 1px solid #cbded2;
+      border-radius: 8px;
+      background: #fbfdfb;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: minmax(260px, 1.1fr) minmax(360px, 1.6fr);
+      gap: 14px;
+      align-items: stretch;
+      box-shadow: 0 12px 30px rgba(15, 79, 63, 0.05);
+    }
+
+    .mission-copy {
+      border-left: 4px solid var(--teal);
+      padding-left: 12px;
+      display: grid;
+      align-content: center;
+      gap: 6px;
+    }
+
+    .mission-copy h3 {
+      margin: 0;
+      font-size: 15px;
+      color: #123b2d;
+    }
+
+    .mission-copy p {
+      margin: 0;
+      color: #4f6459;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .mission-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .mission-step {
+      min-height: 92px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f4faf5;
+      padding: 11px;
+      display: grid;
+      align-content: start;
+      gap: 6px;
+    }
+
+    .mission-step strong {
+      color: #173a2e;
+      font-size: 13px;
+    }
+
+    .mission-step span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
     .view {
       display: none;
     }
@@ -398,7 +470,7 @@
 
     .panel-header h3 {
       margin: 0;
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.25;
     }
 
@@ -424,7 +496,44 @@
       padding: 12px 13px;
       color: #214d3d;
       line-height: 1.5;
-      font-size: 14px;
+      font-size: 13px;
+    }
+
+    .flow-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .flow-step {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfdfb;
+      padding: 10px;
+      display: grid;
+      gap: 5px;
+      min-height: 76px;
+    }
+
+    .flow-step b {
+      color: #173a2e;
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .flow-step span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.42;
+    }
+
+    .flow-step.active {
+      background: #eef8f1;
+      border-color: #b8d1c1;
+    }
+
+    .flow-step.active b {
+      color: var(--teal);
     }
 
     .trust-strip {
@@ -457,18 +566,40 @@
     .prompt-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
+      gap: 6px;
     }
 
     .prompt-btn {
-      min-height: 40px;
+      min-height: 32px;
       border-radius: 8px;
-      padding: 0 10px;
-      background: #f8fbf8;
-      color: #34483f;
+      padding: 0 9px;
+      background: #fbfdfb;
+      color: #52665c;
       border: 1px solid var(--line);
-      text-align: center;
+      text-align: left;
       overflow-wrap: anywhere;
+      font-size: 12px;
+      line-height: 1.25;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 6px;
+    }
+
+    .prompt-btn::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #8fb09d;
+      flex: 0 0 auto;
+    }
+
+    .prompt-btn:hover {
+      color: #123b2d;
+      background: #f0f7f1;
+      border-color: #bdd3c4;
     }
 
     .guided-grid {
@@ -500,7 +631,7 @@
 
     textarea {
       width: 100%;
-      min-height: 116px;
+      min-height: 104px;
       resize: vertical;
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -508,7 +639,7 @@
       color: var(--ink);
       padding: 14px;
       line-height: 1.65;
-      font-size: 15px;
+      font-size: 14px;
     }
 
     textarea::placeholder {
@@ -516,7 +647,7 @@
     }
 
     .guided-field.full textarea {
-      min-height: 150px;
+      min-height: 132px;
     }
 
     .control-row {
@@ -616,6 +747,20 @@
       min-height: 18px;
     }
 
+    .save-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .save-status {
+      color: var(--muted);
+      font-size: 12px;
+      min-height: 18px;
+    }
+
     .stats {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -642,7 +787,7 @@
 
     .summary-title {
       margin: 0;
-      font-size: 20px;
+      font-size: 18px;
       line-height: 1.35;
       color: #123b2d;
     }
@@ -668,6 +813,54 @@
       color: var(--teal);
     }
 
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .action-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfdfb;
+      padding: 12px;
+      display: grid;
+      gap: 7px;
+      min-height: 118px;
+    }
+
+    .action-card h4 {
+      margin: 0;
+      color: #173a2e;
+      font-size: 13px;
+    }
+
+    .action-card p {
+      margin: 0;
+      color: #40564a;
+      font-size: 13px;
+      line-height: 1.52;
+    }
+
+    .action-card span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.42;
+    }
+
+    #actionView .action-card {
+      min-height: 150px;
+      background: #ffffff;
+    }
+
+    #actionView .action-card h4 {
+      font-size: 14px;
+    }
+
+    #actionView .action-card p {
+      font-size: 14px;
+    }
+
     .stat {
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -678,7 +871,7 @@
 
     .stat b {
       display: block;
-      font-size: 22px;
+      font-size: 20px;
       line-height: 1.1;
     }
 
@@ -871,6 +1064,26 @@
       margin-bottom: 5px;
     }
 
+    .empty.compact {
+      min-height: 0;
+      text-align: left;
+      place-items: start;
+      background: #fbfdfb;
+    }
+
+    .columns > .empty.compact,
+    .library-grid > .empty.compact {
+      grid-column: 1 / -1;
+    }
+
+    .placeholder-list {
+      margin: 0;
+      padding-left: 18px;
+      color: #52665c;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
     .low-stimulus {
       --bg: #f8fbf8;
       --panel-soft: #f1f6f1;
@@ -897,7 +1110,7 @@
         max-height: 180px;
       }
 
-      .desk-grid, .insight-layout {
+      .desk-grid, .insight-layout, .mission-strip {
         grid-template-columns: 1fr;
       }
     }
@@ -924,11 +1137,11 @@
         overflow-x: auto;
       }
 
-      .stats, .columns, .framework {
+      .stats, .columns, .framework, .action-grid {
         grid-template-columns: 1fr;
       }
 
-      .trust-strip, .prompt-grid {
+      .trust-strip, .prompt-grid, .mission-steps, .flow-strip {
         grid-template-columns: 1fr;
       }
 
@@ -936,12 +1149,8 @@
         grid-template-columns: 1fr;
       }
 
-      textarea {
-        min-height: 260px;
-      }
-
       .guided-field textarea {
-        min-height: 116px;
+        min-height: 108px;
       }
     }
   </style>
@@ -959,23 +1168,27 @@
           </svg>
         </div>
         <div>
-          <h1>Mind Loom — 边缘与回声</h1>
-          <p data-i18n="brandSubtitle">把丰沛想法织成清晰路径</p>
+          <h1>Mind Loom</h1>
+          <p data-i18n="brandSubtitle">边缘与回声：于思维的经纬间，看灵感落网。</p>
         </div>
       </div>
 
       <nav class="nav" aria-label="主要区域">
         <button class="active" data-view="desk">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h10"></path></svg>
-          <span data-i18n="navDesk">梳理台</span>
+          <span data-i18n="navDesk">思绪入网</span>
         </button>
         <button data-view="board">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"></path><path d="M15 4v16"></path></svg>
-          <span data-i18n="navBoard">结构板</span>
+          <span data-i18n="navBoard">经纬结构</span>
+        </button>
+        <button data-view="action">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19c5-8 11-12 16-14"></path><path d="M14 5h6v6"></path><path d="M5 19h14"></path></svg>
+          <span data-i18n="navAction">微步成路</span>
         </button>
         <button data-view="library">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"></path><path d="M8 4v13a3 3 0 0 0 3 3"></path></svg>
-          <span data-i18n="navLibrary">灵感库</span>
+          <span data-i18n="navLibrary">回声档案</span>
         </button>
       </nav>
 
@@ -988,6 +1201,16 @@
           <button class="account-btn" id="logoutBtn" data-i18n="logoutBtn">退出登录</button>
         </div>
         <a class="account-link" href="/privacy" target="_blank" rel="noreferrer" data-i18n="privacyLink">隐私政策</a>
+      </section>
+
+      <section class="language-box">
+        <h2 data-i18n="languageTitle">语言</h2>
+        <p data-i18n="languageSub">切换界面文字，不影响已保存内容。</p>
+        <select class="language-select" id="languageSelect" aria-label="Language">
+          <option value="zh">中文</option>
+          <option value="en">English</option>
+          <option value="fr">Français</option>
+        </select>
       </section>
 
       <section class="library-mini">
@@ -1008,11 +1231,6 @@
             <button data-mode="logic" data-i18n="modeLogic">逻辑推演</button>
             <button data-mode="creative" data-i18n="modeCreative">创意发散</button>
           </div>
-          <select class="language-select" id="languageSelect" aria-label="Language">
-            <option value="zh">中文</option>
-            <option value="en">English</option>
-            <option value="fr">Français</option>
-          </select>
           <button class="icon-btn" id="sampleBtn" data-tip="放入示例" data-i18n-tip="sampleTip" aria-label="放入示例" data-i18n-aria="sampleTip">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"></path><path d="M3 12h18"></path></svg>
           </button>
@@ -1023,6 +1241,27 @@
       </header>
 
       <div class="workspace">
+        <section class="mission-strip">
+          <div class="mission-copy">
+            <h3 data-i18n="missionTitle">在信息洪流里，保留自己的回声。</h3>
+            <p data-i18n="missionText">把新闻、突发事件、关系信号和脑内灵感先放下，再分辨：哪些来自外界，哪些属于你，哪些可以进入生活。</p>
+          </div>
+          <div class="mission-steps">
+            <div class="mission-step">
+              <strong data-i18n="missionStep1Title">卸下外界噪音</strong>
+              <span data-i18n="missionStep1Text">记录被哪些信息牵动，而不是马上跟着它跑。</span>
+            </div>
+            <div class="mission-step">
+              <strong data-i18n="missionStep2Title">看见能量变化</strong>
+              <span data-i18n="missionStep2Text">把高敏感里的紧绷、兴奋和在意都当作线索。</span>
+            </div>
+            <div class="mission-step">
+              <strong data-i18n="missionStep3Title">织成下一步</strong>
+              <span data-i18n="missionStep3Text">把兴趣、判断和可承受的小行动连成自己的路径。</span>
+            </div>
+          </div>
+        </section>
+
         <section class="view active" id="deskView">
           <div class="desk-grid">
             <section class="panel">
@@ -1031,9 +1270,23 @@
                   <h3 data-i18n="safeZoneTitle">安全倾倒区</h3>
                   <p data-i18n="safeZoneSub">想到什么写什么，矛盾、跳跃、重复都可以。</p>
                 </div>
-              </div>
-              <div class="panel-body input-stack">
-                <div class="safe-note" data-i18n="safeNote">这里不会评价你写得乱不乱。你可以先把画面、担心、灵感和没说完的半句话都放下。</div>
+                </div>
+                <div class="panel-body input-stack">
+                  <div class="safe-note" data-i18n="safeNote">这里不会评价你写得乱不乱。你可以先把画面、担心、灵感和没说完的半句话都放下。</div>
+                <div class="flow-strip" aria-label="内容流转">
+                  <div class="flow-step active">
+                    <b data-i18n="flowWriteTitle">1. 先写下来</b>
+                    <span data-i18n="flowWriteText">这里是原料，只有你决定写什么。</span>
+                  </div>
+                  <div class="flow-step">
+                    <b data-i18n="flowWeaveTitle">2. 生成经纬结构</b>
+                    <span data-i18n="flowWeaveText">点击整理后，右侧和经纬结构会一起更新。</span>
+                  </div>
+                  <div class="flow-step">
+                    <b data-i18n="flowSaveTitle">3. 存入回声档案</b>
+                    <span data-i18n="flowSaveText">你觉得有用时，再点保存留下这一轮。</span>
+                  </div>
+                </div>
                 <div class="trust-strip" aria-label="使用说明">
                   <div class="trust-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
@@ -1049,9 +1302,9 @@
                   </div>
                 </div>
                 <div class="prompt-grid" aria-label="快速开始">
-                  <button class="prompt-btn" data-target="field-noise" data-prompt="我脑子里现在最吵的是：" data-i18n="promptNoise">我脑子里现在最吵的是</button>
-                  <button class="prompt-btn" data-target="field-idea" data-prompt="我有一个想法，但还没想清楚：" data-i18n="promptIdea">我有一个想法，但还没想清楚</button>
-                  <button class="prompt-btn" data-target="field-need" data-prompt="我不确定自己为什么在意这件事：" data-i18n="promptNeed">我不确定自己为什么在意</button>
+                  <button class="prompt-btn" data-target="field-noise" data-prompt-key="promptNoiseSeed" data-i18n="promptNoise">最吵的念头</button>
+                  <button class="prompt-btn" data-target="field-idea" data-prompt-key="promptIdeaSeed" data-i18n="promptIdea">未成形的想法</button>
+                  <button class="prompt-btn" data-target="field-need" data-prompt-key="promptNeedSeed" data-i18n="promptNeed">我为什么在意</button>
                 </div>
                 <div class="guided-grid" id="guidedInputs">
                   <div class="guided-field">
@@ -1102,7 +1355,7 @@
                   </label>
                   <button class="primary-btn" id="analyzeBtn">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M8 14a6 6 0 1 1 8 0c-.7.6-1 1.2-1 2H9c0-.8-.3-1.4-1-2z"></path></svg>
-                    <span data-i18n="analyzeBtn">开始梳理</span>
+                    <span data-i18n="analyzeBtn">开始整理</span>
                   </button>
                 </div>
               </div>
@@ -1114,10 +1367,13 @@
                   <h3 data-i18n="understoodTitle">先被理解</h3>
                   <p data-i18n="understoodSub">结果会先给你一个温柔概括，再进入结构。</p>
                 </div>
-                <button class="ghost-btn" id="saveBtn">
-                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg>
-                  <span data-i18n="saveBtn">保存</span>
-                </button>
+                <div class="save-actions">
+                  <span class="save-status" id="saveStatus"></span>
+                  <button class="ghost-btn" id="saveBtn">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg>
+                    <span data-i18n="saveBtn">保存到档案</span>
+                  </button>
+                </div>
               </div>
               <div class="panel-body">
                 <div class="summary-card" id="summaryCard"></div>
@@ -1180,11 +1436,28 @@
           </section>
         </section>
 
+        <section class="view" id="actionView">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h3 data-i18n="actionViewTitle">微步成路</h3>
+                <p data-i18n="actionViewSub">把整理后的内容变成三种不会压垮人的下一步。</p>
+              </div>
+            </div>
+            <div class="panel-body">
+              <section class="summary-card">
+                <p class="summary-kicker" data-i18n="actionKicker">微步成路</p>
+                <div class="action-grid" id="actionGridFull"></div>
+              </section>
+            </div>
+          </section>
+        </section>
+
         <section class="view" id="libraryView">
           <section class="panel">
             <div class="panel-header">
               <div>
-                <h3 data-i18n="libraryTitle">灵感库</h3>
+                <h3 data-i18n="libraryTitle">回声档案</h3>
                 <p data-i18n="librarySub">保存的整理结果会进入数据库；后端不可用时会暂存在本机浏览器。</p>
               </div>
               <button class="ghost-btn" id="clearBtn">
@@ -1206,6 +1479,7 @@
     const input = $("#thoughtInput");
     const guidedInputs = () => $$("#guidedInputs textarea");
     const summaryCard = $("#summaryCard");
+    const actionGridFull = $("#actionGridFull");
     const stats = $("#stats");
     const signals = $("#signals");
     const mapArea = $("#mapArea");
@@ -1220,21 +1494,32 @@
     const accountStatus = $("#accountStatus");
     const emailInput = $("#emailInput");
     const languageSelect = $("#languageSelect");
+    const saveStatus = $("#saveStatus");
 
     const storageKey = "mind-loom-demo-records";
     const feedbackStorageKey = "mind-loom-demo-feedback";
     const i18n = {
       zh: {
-        brandSubtitle: "把丰沛想法织成清晰路径",
-        navDesk: "梳理台", navBoard: "结构板", navLibrary: "灵感库",
+        brandSubtitle: "边缘与回声：于思维的经纬间，看灵感落网。",
+        navDesk: "思绪入网", navBoard: "经纬结构", navAction: "微步成路", navLibrary: "回声档案",
         identityTitle: "身份", recentSaved: "最近保存", emailPlaceholder: "邮箱登录，可跨设备保存",
         loginBtn: "登录 / 创建账号", logoutBtn: "退出登录", privacyLink: "隐私政策",
+        languageTitle: "语言", languageSub: "切换界面文字，不影响已保存内容。",
+        missionTitle: "在信息洪流里，保留自己的回声。",
+        missionText: "把新闻、突发事件、关系信号和脑内灵感先放下，再分辨：哪些来自外界，哪些属于你，哪些可以进入生活。",
+        missionStep1Title: "卸下外界噪音", missionStep1Text: "记录被哪些信息牵动，而不是马上跟着它跑。",
+        missionStep2Title: "看见能量变化", missionStep2Text: "把高敏感里的紧绷、兴奋和在意都当作线索。",
+        missionStep3Title: "织成下一步", missionStep3Text: "把兴趣、判断和可承受的小行动连成自己的路径。",
         modeGroup: "思考模式", modeGentle: "轻柔整理", modeLogic: "逻辑推演", modeCreative: "创意发散",
         sampleTip: "放入示例", exportTip: "导出摘要",
         safeZoneTitle: "安全倾倒区", safeZoneSub: "想到什么写什么，矛盾、跳跃、重复都可以。",
         safeNote: "这里不会评价你写得乱不乱。你可以先把画面、担心、灵感和没说完的半句话都放下。",
+        flowWriteTitle: "1. 先写下来", flowWriteText: "这里是原料，只有你决定写什么。",
+        flowWeaveTitle: "2. 生成经纬结构", flowWeaveText: "点击整理后，右侧和经纬结构会一起更新。",
+        flowSaveTitle: "3. 存入回声档案", flowSaveText: "你觉得有用时，再点保存留下这一轮。",
         trustSave: "匿名或登录后保存到数据库", trustNoJudge: "不评价、不打分、不诊断", trustNotTherapy: "适合思路整理，不替代专业帮助",
-        promptNoise: "我脑子里现在最吵的是", promptIdea: "我有一个想法，但还没想清楚", promptNeed: "我不确定自己为什么在意",
+        promptNoise: "最吵的念头", promptIdea: "未成形的想法", promptNeed: "我为什么在意",
+        promptNoiseSeed: "我脑子里现在最吵的是：", promptIdeaSeed: "我有一个想法，但还没想清楚：", promptNeedSeed: "我不确定自己为什么在意这件事：",
         fieldNoiseLabel: "此刻最吵的念头", fieldNoiseHelp: "不用概括，只写最先冒出来的那一句。", phNoise: "例如：我一直在想这件事会不会做不成...",
         fieldFeelingLabel: "情绪 / 身体信号", fieldFeelingHelp: "紧、酸、兴奋、委屈、麻木，都算线索。", phFeeling: "例如：胸口有点紧，但也有一点期待...",
         fieldWorryLabel: "我在担心什么", fieldWorryHelp: "把脑内预警写出来，它就不用一直循环。", phWorry: "例如：担心别人觉得这只是普通笔记工具...",
@@ -1242,37 +1527,57 @@
         fieldNeedLabel: "我真正想要的", fieldNeedHelp: "可能是安全感、清晰感、连接感或创造空间。", phNeed: "例如：我想要一种既被理解又能往前走的感觉...",
         fieldStepLabel: "现在能承受的一小步", fieldStepHelp: "越小越好，小到不会让自己紧绷。", phStep: "例如：先写三个用户会输入的真实句子...",
         fieldFreeLabel: "自由补充", fieldFreeHelp: "还有没地方放的半句话、关系线索、冲突感，都可以倒在这里。", phFree: "直接写就好：我现在想到... 我有点担心... 但又觉得... 还有一个画面是...",
-        energyLabelText: "心力余量", energyValues: ["", "很低", "偏低", "中等", "充足", "很满"], calmMode: "低刺激模式", analyzeBtn: "开始梳理",
-        understoodTitle: "先被理解", understoodSub: "结果会先给你一个温柔概括，再进入结构。", saveBtn: "保存",
+        energyLabelText: "心力余量", energyValues: ["", "很低", "偏低", "中等", "充足", "很满"], calmMode: "低刺激模式", analyzeBtn: "开始整理",
+        understoodTitle: "先一起看见", understoodSub: "这里会先接住你的原话，再慢慢分出结构。", saveBtn: "保存到档案", saveReady: "整理已生成，可以保存到回声档案。", saveDone: "已放进回声档案，之后可以回来继续看。", saveFirst: "先点“开始整理”，这里才有可以保存的内容。",
+        actionKicker: "微步成路", actionSoftTitle: "今天只放一颗石子", actionSoftNote: "不是逼自己立刻改变，而是让明天的你少一点卡住。",
+        actionGuardTitle: "先不把自己推太远", actionGuardNote: "暂时避开会耗尽你的选择，给心力留一点余地。",
+        actionAskTitle: "找一束小光", actionAskNote: "可以问一个人、查一个资料，或写下一个更准确的问题。",
+        actionViewTitle: "微步成路", actionViewSub: "把整理后的内容变成三种不会压垮人的下一步。",
+        actionWaitingTitle: "先从思绪入网开始", actionWaitingText: "完成第一部分并点击“开始整理”后，这里会出现属于这一轮思考的行动建议。",
+        emptyAction1: "先写下一句最真实的话。", emptyAction2: "整理后，这里会给出一组很轻的下一步。", emptyAction3: "保存后，它会和这一轮思考一起进入回声档案。",
         feedbackTitle: "这次整理有帮助吗？", feedbackSub: "给真实用户测试时，可以请他们在这里留下一句话。反馈会保存到数据库；离线时暂存在当前浏览器。",
         feedbackPlaceholder: "例如：哪句话让你放松了？哪里还是太分析化？你下一步会不会继续用？", feedbackSave: "保存反馈", feedbackCopy: "复制反馈",
-        themeClusterTitle: "主题簇", themeClusterSub: "把跳跃的线索按意义归位。", frameworkTitle: "理性框架", frameworkSub: "把感受、判断和行动分开放置。",
-        libraryTitle: "灵感库", librarySub: "保存的整理结果会进入数据库；后端不可用时会暂存在本机浏览器。", clearBtn: "清空",
-        deskTitle: "把脑子里的东西先倒在这里", deskSubtitle: "不用完整、不用有逻辑，也不用马上变好。这里会先接住，再慢慢帮你分层。",
-        boardTitle: "结构板", boardSubtitle: "把想法放入主题簇和理性框架，方便判断与推进。",
-        libraryViewTitle: "灵感库", libraryViewSubtitle: "回看保存过的思考，观察自己的长期线索。",
+        themeClusterTitle: "经纬主题", themeClusterSub: "把外界信息、内在回声和行动线索分开放置。", frameworkTitle: "生活融入框架", frameworkSub: "把已经知道的、正在猜的、想守住的和能做的一步分开放。",
+        libraryTitle: "回声档案", librarySub: "保存每次整理后的路径，之后回看长期兴趣、能量和选择变化。", clearBtn: "清空",
+        deskTitle: "把外界噪音和脑内灵感先放在这里", deskSubtitle: "不用完整、不用正确，也不用立刻积极。这里先接住，再帮你辨认什么属于你。",
+        boardTitle: "经纬结构", boardSubtitle: "把信息源、情绪回声、个人判断和下一步织成可行动的路径。",
+        actionTitle: "微步成路", actionSubtitle: "不急着改变人生，先找到今天能承受的一步。",
+        libraryViewTitle: "回声档案", libraryViewSubtitle: "回看保存过的思考，观察自己真正反复在意的方向。",
         accountLocal: "当前为本地预览模式，记录暂存在浏览器。", accountLogged: "已登录：", accountAnon: "匿名空间：",
         loginError: "登录失败。", logoutError: "退出失败，请稍后重试。", noSaved: "暂无保存",
-        emptyLibraryTitle: "灵感库是空的", emptyLibraryText: "梳理后点击保存，就能把结果留在这里。", open: "打开", delete: "删除",
-        summaryKicker: "我先这样理解", nextNeed: "现在只需要：", emptyKicker: "欢迎先放下",
-        emptyTitle: "你不需要先想清楚，才值得被整理。", emptyText: "把脑子里的词、画面、担心、灵感都写进左边。按下“开始梳理”后，我会先给一个不评判的概括，再拆成结构。", emptyStep: "随便写下第一句。",
-        waitingTitle: "等待一段真实想法", waitingText: "写得越自然，整理结果越像你的脑内地图。", noThemesTitle: "还没有主题簇", noThemesText: "完成一次梳理后，这里会出现结构板。", noFrameworkTitle: "还没有理性框架", noFrameworkText: "事实、假设、需求和下一步会自动分区。",
+        emptyLibraryTitle: "还没有回声档案", emptyLibraryText: "完成一次入网整理并点击保存，这里会沉淀你的长期线索。", open: "打开", delete: "删除",
+        summaryKicker: "我先陪你这样看", nextNeed: "可以先做这一点：", emptyKicker: "欢迎先放下",
+        emptyTitle: "不用先变得清楚，也可以开始整理。", emptyText: "把脑子里的词、画面、担心、灵感都写进左边。按下“开始整理”后，这些内容会同时进入右侧概括和经纬结构；只有你点保存，它才会进入回声档案。", emptyStep: "随便写下第一句。",
+        waitingTitle: "等待一段真实想法", waitingText: "写得越自然，整理结果越像你的脑内地图。", noThemesTitle: "等待第一批线索入网", noThemesText: "完成一次整理后，这里会把信息源、情绪回声和行动方向分层呈现。", noFrameworkTitle: "框架已经备好", noFrameworkText: "你的原话会被放进这些格子里，不会被改成标准答案。",
+        placeholderThemes: ["信息源：哪些新闻、关系、平台内容或突发事件正在影响我？", "身体与情绪：它让我紧绷、兴奋、耗竭，还是更清醒？", "个人回声：这件事为什么被我在意，它碰到了什么价值或愿望？"],
+        placeholderFramework: ["我知道的：我确实知道什么？", "我在猜的：我脑中正在预演什么？", "我想守住的：我真正想保护或争取什么？", "可以轻轻做的：今天能承受的一个小动作是什么？", "还想问自己的：这条信息要不要进入我的生活？"],
+        libraryStarters: ["信息过载后的判断记录", "关于兴趣和能力的长期线索", "突发事件后的能量修复", "下一阶段可尝试的小行动"],
         stats: ["想法片段", "主题方向", "情绪强度", "行动清晰度"],
-        themes: { emotion: "情绪信号", creativity: "创造力", logic: "逻辑结构", action: "行动线索", value: "价值需求", risk: "风险疑问" },
-        frameworkBlocks: ["事实", "假设", "需求", "下一步", "追问"],
-        saveFeedbackFirst: "请先完成一次梳理。", savedDb: "已保存到数据库。", savedLocal: "后端不可用，已暂存在当前浏览器。", copied: "反馈已复制，可以发给产品团队。", copyFailed: "复制失败，请手动选中文字反馈。"
+        themes: { emotion: "身体和情绪", creativity: "灵感火花", logic: "判断线索", action: "可走一步", value: "在意的东西", risk: "担心和疑问" },
+        frameworkBlocks: ["我知道的", "我在猜的", "我想守住的", "可以轻轻做的", "还想问自己的"],
+        saveFeedbackFirst: "请先完成一次梳理。", savedDb: "已保存到数据库。", savedLocal: "后端不可用，已暂存在当前浏览器。", copied: "反馈已复制，可以发给产品团队。", copyFailed: "复制失败，请手动选中文字反馈。", feedbackExportTitle: "Mind Loom 用户反馈", exportedNextStep: "下一步"
       },
       en: {
-        brandSubtitle: "Turn abundant thoughts into a clearer path",
-        navDesk: "Desk", navBoard: "Board", navLibrary: "Library",
+        brandSubtitle: "Edges and echoes: catch inspiration in the weave of thought.",
+        navDesk: "Thought Weave", navBoard: "Logic Loom", navAction: "Small Steps", navLibrary: "Echo Archive",
         identityTitle: "Identity", recentSaved: "Recent", emailPlaceholder: "Email login for cross-device saving",
         loginBtn: "Log in / Create", logoutBtn: "Log out", privacyLink: "Privacy policy",
+        languageTitle: "Language", languageSub: "Switch interface language. Saved content stays as written.",
+        missionTitle: "Keep your own echo inside the flood of information.",
+        missionText: "Set down news, sudden events, social signals, and inner sparks, then tell apart what comes from outside, what belongs to you, and what can enter your life.",
+        missionStep1Title: "Unload outside noise", missionStep1Text: "Notice what information is pulling you before following it.",
+        missionStep2Title: "Read your energy", missionStep2Text: "Treat tension, excitement, sensitivity, and care as useful clues.",
+        missionStep3Title: "Weave one next step", missionStep3Text: "Connect interests, judgment, and a bearable action into your own path.",
         modeGroup: "Thinking mode", modeGentle: "Gentle sorting", modeLogic: "Logical view", modeCreative: "Creative spread",
         sampleTip: "Insert sample", exportTip: "Export summary",
         safeZoneTitle: "Safe drop zone", safeZoneSub: "Write whatever arrives. Contradictions, jumps, and repetition are welcome.",
         safeNote: "This space will not judge how messy it is. Put down images, worries, sparks, and unfinished half-sentences.",
+        flowWriteTitle: "1. Write first", flowWriteText: "This is raw material. You decide what belongs here.",
+        flowWeaveTitle: "2. Shape the loom", flowWeaveText: "After sorting, the right side and Logic Loom update together.",
+        flowSaveTitle: "3. Save an echo", flowSaveText: "If it feels useful, save this round into the archive.",
         trustSave: "Saved after anonymous or email login", trustNoJudge: "No judging, scoring, or diagnosis", trustNotTherapy: "For reflection, not professional care",
-        promptNoise: "The loudest thing in my mind", promptIdea: "I have an idea, not yet clear", promptNeed: "I am not sure why I care",
+        promptNoise: "Loudest thought", promptIdea: "Unformed idea", promptNeed: "Why I care",
+        promptNoiseSeed: "The loudest thing in my mind is: ", promptIdeaSeed: "I have an idea that is not clear yet: ", promptNeedSeed: "I am not sure why I care about this: ",
         fieldNoiseLabel: "Loudest thought right now", fieldNoiseHelp: "No need to summarize. Write the first sentence that appears.", phNoise: "Example: I keep wondering whether this will fail...",
         fieldFeelingLabel: "Emotion / body signal", fieldFeelingHelp: "Tightness, excitement, sadness, numbness: all are clues.", phFeeling: "Example: My chest feels tight, but there is also anticipation...",
         fieldWorryLabel: "What I am worried about", fieldWorryHelp: "Put the warning loop on the page so it can stop circling.", phWorry: "Example: I worry people will see this as just another notes app...",
@@ -1281,36 +1586,56 @@
         fieldStepLabel: "A step I can bear now", fieldStepHelp: "Smaller is better, small enough not to tighten you.", phStep: "Example: Write three real sentences a user might enter...",
         fieldFreeLabel: "Free notes", fieldFreeHelp: "Anything with no place yet can go here.", phFree: "Write freely: I am thinking... I worry... but I also feel...",
         energyLabelText: "Energy", energyValues: ["", "very low", "low", "medium", "good", "full"], calmMode: "Low-stimulus mode", analyzeBtn: "Start sorting",
-        understoodTitle: "First, feel understood", understoodSub: "Results begin with a gentle read, then move into structure.", saveBtn: "Save",
+        understoodTitle: "First, notice together", understoodSub: "Your words are held first, then gently shaped into structure.", saveBtn: "Save to archive", saveReady: "A structure is ready. You can save it to the Echo Archive.", saveDone: "Saved to the Echo Archive. You can return to it later.", saveFirst: "Start sorting first, then there will be something to save.",
+        actionKicker: "Small Steps", actionSoftTitle: "Place one stone today", actionSoftNote: "Not a demand to change, just a way to make tomorrow less stuck.",
+        actionGuardTitle: "Do not push too far", actionGuardNote: "Avoid choices that drain you while your energy is still tender.",
+        actionAskTitle: "Find one small light", actionAskNote: "Ask one person, check one source, or write a sharper question.",
+        actionViewTitle: "Small Steps", actionViewSub: "Turn the sorting into three next steps that will not crush you.",
+        actionWaitingTitle: "Begin with Thought Weave", actionWaitingText: "After the first part is sorted, this page will show next steps for that round.",
+        emptyAction1: "Write one honest sentence first.", emptyAction2: "After sorting, gentle next steps will appear here.", emptyAction3: "When saved, they stay with this round in the Echo Archive.",
         feedbackTitle: "Was this helpful?", feedbackSub: "For user testing, invite one sentence here. Feedback saves to the database; offline it stays in this browser.",
         feedbackPlaceholder: "Example: Which sentence helped you relax? What felt too analytical?", feedbackSave: "Save feedback", feedbackCopy: "Copy feedback",
-        themeClusterTitle: "Theme clusters", themeClusterSub: "Place jumping clues by meaning.", frameworkTitle: "Reasoning frame", frameworkSub: "Separate feeling, judgment, and action.",
-        libraryTitle: "Library", librarySub: "Saved reflections go to the database; if offline, they stay in this browser.", clearBtn: "Clear",
-        deskTitle: "Pour what is in your mind here first", deskSubtitle: "It does not need to be complete, logical, or better yet. This space holds it first, then helps you layer it.",
-        boardTitle: "Structure board", boardSubtitle: "Place thoughts into theme clusters and a reasoning frame.",
-        libraryViewTitle: "Library", libraryViewSubtitle: "Review saved reflections and notice long-term patterns.",
+        themeClusterTitle: "Woven themes", themeClusterSub: "Separate outside information, inner echoes, and action clues.", frameworkTitle: "Life-integration frame", frameworkSub: "Regain agency through facts, assumptions, needs, and next steps.",
+        libraryTitle: "Echo Archive", librarySub: "Save each sorted path and revisit long-term interests, energy, and choices.", clearBtn: "Clear",
+        deskTitle: "Put outside noise and inner sparks here first", deskSubtitle: "It does not need to be complete, correct, or positive. This space holds it first, then helps you see what is yours.",
+        boardTitle: "Logic Loom", boardSubtitle: "Weave information sources, emotional echoes, personal judgment, and next steps into an actionable path.",
+        actionTitle: "Small Steps", actionSubtitle: "No need to change your whole life. Find one bearable step for today.",
+        libraryViewTitle: "Echo Archive", libraryViewSubtitle: "Review saved reflections and notice what keeps mattering to you.",
         accountLocal: "Local preview mode. Records are stored in this browser.", accountLogged: "Logged in: ", accountAnon: "Anonymous space: ",
         loginError: "Login failed.", logoutError: "Logout failed. Please try again.", noSaved: "No saved items",
-        emptyLibraryTitle: "Library is empty", emptyLibraryText: "After sorting, click Save to keep a result here.", open: "Open", delete: "Delete",
+        emptyLibraryTitle: "No echo records yet", emptyLibraryText: "After one sorting, click Save to preserve long-term clues here.", open: "Open", delete: "Delete",
         summaryKicker: "My first read", nextNeed: "Now only this: ", emptyKicker: "Welcome. Put it down first.",
         emptyTitle: "You do not need to be clear before you deserve structure.", emptyText: "Write words, images, worries, and sparks on the left. After sorting, I will give a nonjudgmental read and then structure it.", emptyStep: "Write any first sentence.",
-        waitingTitle: "Waiting for a real thought", waitingText: "The more natural it is, the more the map will feel like yours.", noThemesTitle: "No theme clusters yet", noThemesText: "After one sorting, the board appears here.", noFrameworkTitle: "No reasoning frame yet", noFrameworkText: "Facts, assumptions, needs, and next steps will separate automatically.",
+        waitingTitle: "Waiting for a real thought", waitingText: "The more natural it is, the more the map will feel like yours.", noThemesTitle: "Waiting for the first clues", noThemesText: "After one sorting, information sources, emotional echoes, and action directions will appear in layers.", noFrameworkTitle: "The frame is ready", noFrameworkText: "Facts, assumptions, needs, next steps, and questions will land here.",
+        placeholderThemes: ["Information source: which news, relationships, platforms, or events are affecting me?", "Body and emotion: does it make me tense, excited, depleted, or clearer?", "Personal echo: why do I care, and which value or wish did it touch?"],
+        placeholderFramework: ["Facts: what do I actually know?", "Assumptions: what am I rehearsing in my mind?", "Needs: what am I protecting or seeking?", "Next step: what is one bearable action today?", "Question: should this information enter my life?"],
+        libraryStarters: ["Judgment after information overload", "Long-term clues about interests and ability", "Energy repair after sudden events", "Small actions for the next stage"],
         stats: ["Fragments", "Themes", "Emotion", "Action clarity"],
         themes: { emotion: "Emotion signal", creativity: "Creativity", logic: "Logic", action: "Action clue", value: "Value need", risk: "Risk question" },
         frameworkBlocks: ["Facts", "Assumptions", "Needs", "Next steps", "Questions"],
-        saveFeedbackFirst: "Please complete one sorting first.", savedDb: "Saved to database.", savedLocal: "Backend unavailable; saved in this browser.", copied: "Feedback copied for the product team.", copyFailed: "Copy failed. Please select and copy manually."
+        saveFeedbackFirst: "Please complete one sorting first.", savedDb: "Saved to database.", savedLocal: "Backend unavailable; saved in this browser.", copied: "Feedback copied for the product team.", copyFailed: "Copy failed. Please select and copy manually.", feedbackExportTitle: "Mind Loom user feedback", exportedNextStep: "Next step"
       },
       fr: {
-        brandSubtitle: "Transformer des pensées abondantes en chemin clair",
-        navDesk: "Atelier", navBoard: "Structure", navLibrary: "Bibliothèque",
+        brandSubtitle: "Bords et échos : attraper l’inspiration dans la trame de la pensée.",
+        navDesk: "Pensées tissées", navBoard: "Trame logique", navAction: "Petits pas", navLibrary: "Archive d’échos",
         identityTitle: "Identité", recentSaved: "Récents", emailPlaceholder: "Connexion par e-mail pour sauvegarder",
         loginBtn: "Se connecter / Créer", logoutBtn: "Se déconnecter", privacyLink: "Confidentialité",
+        languageTitle: "Langue", languageSub: "Changer la langue de l’interface. Les contenus sauvegardés restent tels quels.",
+        missionTitle: "Garder son propre écho dans le flot d’informations.",
+        missionText: "Déposer nouvelles, événements soudains, signaux sociaux et élans intérieurs, puis distinguer ce qui vient du dehors, ce qui vous appartient, et ce qui peut entrer dans votre vie.",
+        missionStep1Title: "Déposer le bruit extérieur", missionStep1Text: "Voir quelles informations vous tirent avant de les suivre.",
+        missionStep2Title: "Lire votre énergie", missionStep2Text: "Traiter tension, élan, sensibilité et attention comme des indices.",
+        missionStep3Title: "Tisser un prochain pas", missionStep3Text: "Relier intérêts, jugement et action supportable en un chemin personnel.",
         modeGroup: "Mode de pensée", modeGentle: "Tri doux", modeLogic: "Vue logique", modeCreative: "Expansion créative",
         sampleTip: "Insérer un exemple", exportTip: "Exporter",
         safeZoneTitle: "Zone de dépôt sûre", safeZoneSub: "Écrivez ce qui vient. Contradictions, sauts et répétitions sont acceptés.",
         safeNote: "Cet espace ne juge pas le désordre. Déposez images, inquiétudes, élans et phrases inachevées.",
+        flowWriteTitle: "1. Écrire d’abord", flowWriteText: "C’est la matière brute. Vous choisissez ce qui vient ici.",
+        flowWeaveTitle: "2. Former la trame", flowWeaveText: "Après le tri, la droite et la trame logique se mettent à jour.",
+        flowSaveTitle: "3. Sauver un écho", flowSaveText: "Si cela vous aide, gardez ce tour dans l’archive.",
         trustSave: "Sauvegarde anonyme ou connectée", trustNoJudge: "Pas de jugement, score ou diagnostic", trustNotTherapy: "Pour réfléchir, pas pour remplacer une aide professionnelle",
-        promptNoise: "Ce qui fait le plus de bruit", promptIdea: "J’ai une idée encore floue", promptNeed: "Je ne sais pas pourquoi j’y tiens",
+        promptNoise: "Pensée bruyante", promptIdea: "Idée floue", promptNeed: "Pourquoi j’y tiens",
+        promptNoiseSeed: "Ce qui fait le plus de bruit en moi : ", promptIdeaSeed: "J’ai une idée encore floue : ", promptNeedSeed: "Je ne sais pas encore pourquoi cela compte : ",
         fieldNoiseLabel: "Pensée la plus bruyante", fieldNoiseHelp: "Pas besoin de résumer. Écrivez la première phrase qui arrive.", phNoise: "Exemple : je me demande si cela va échouer...",
         fieldFeelingLabel: "Émotion / signal corporel", fieldFeelingHelp: "Tension, élan, tristesse, engourdissement : tout compte.", phFeeling: "Exemple : ma poitrine est serrée, mais j’ai aussi de l’attente...",
         fieldWorryLabel: "Ce qui m’inquiète", fieldWorryHelp: "Mettre l’alerte sur la page l’aide à arrêter de tourner.", phWorry: "Exemple : j’ai peur qu’on voie cela comme une simple app de notes...",
@@ -1319,24 +1644,34 @@
         fieldStepLabel: "Un pas supportable", fieldStepHelp: "Plus c’est petit, mieux c’est.", phStep: "Exemple : écrire trois phrases réelles d’utilisateur...",
         fieldFreeLabel: "Notes libres", fieldFreeHelp: "Tout ce qui n’a pas encore de place peut aller ici.", phFree: "Écrivez librement : je pense... je crains... mais je sens aussi...",
         energyLabelText: "Énergie", energyValues: ["", "très basse", "basse", "moyenne", "bonne", "pleine"], calmMode: "Mode doux", analyzeBtn: "Commencer",
-        understoodTitle: "D’abord, être compris", understoodSub: "Le résultat commence par une lecture douce, puis va vers la structure.", saveBtn: "Sauver",
+        understoodTitle: "Voir ensemble d’abord", understoodSub: "Vos mots sont accueillis, puis doucement structurés.", saveBtn: "Sauver dans l’archive", saveReady: "Une structure est prête. Vous pouvez la sauver.", saveDone: "Sauvé dans l’archive d’échos. Vous pourrez y revenir.", saveFirst: "Commencez le tri d’abord, puis il y aura quelque chose à sauver.",
+        actionKicker: "Petits pas", actionSoftTitle: "Poser une pierre aujourd’hui", actionSoftNote: "Pas pour forcer le changement, seulement pour rendre demain moins bloqué.",
+        actionGuardTitle: "Ne pas aller trop loin", actionGuardNote: "Éviter les choix qui épuisent quand l’énergie est fragile.",
+        actionAskTitle: "Trouver une petite lumière", actionAskNote: "Demander à une personne, vérifier une source, ou écrire une question plus juste.",
+        actionViewTitle: "Petits pas", actionViewSub: "Transformer le tri en trois prochains pas qui ne vous écrasent pas.",
+        actionWaitingTitle: "Commencer par les pensées", actionWaitingText: "Après le premier tri, cette page montrera les prochains pas de ce tour.",
+        emptyAction1: "Écrire d’abord une phrase honnête.", emptyAction2: "Après le tri, de petits prochains pas apparaîtront ici.", emptyAction3: "Une fois sauvés, ils restent avec ce tour dans l’archive.",
         feedbackTitle: "Cela vous a aidé ?", feedbackSub: "Pour un test utilisateur, laissez une phrase ici. Le retour est sauvegardé en base ; hors ligne, il reste dans ce navigateur.",
         feedbackPlaceholder: "Exemple : quelle phrase vous a apaisé ? Qu’est-ce qui semblait trop analytique ?", feedbackSave: "Sauver le retour", feedbackCopy: "Copier le retour",
-        themeClusterTitle: "Thèmes", themeClusterSub: "Ranger les indices par sens.", frameworkTitle: "Cadre logique", frameworkSub: "Séparer ressenti, jugement et action.",
-        libraryTitle: "Bibliothèque", librarySub: "Les réflexions sauvées vont en base ; hors ligne, elles restent dans ce navigateur.", clearBtn: "Vider",
-        deskTitle: "Déposez d’abord ce qui vous traverse", deskSubtitle: "Ce n’a pas besoin d’être complet, logique ou déjà mieux. Ici, on accueille d’abord, puis on classe doucement.",
-        boardTitle: "Tableau de structure", boardSubtitle: "Placer les pensées en thèmes et en cadre logique.",
-        libraryViewTitle: "Bibliothèque", libraryViewSubtitle: "Revoir les réflexions sauvegardées et repérer les fils longs.",
+        themeClusterTitle: "Thèmes tissés", themeClusterSub: "Séparer information extérieure, échos intérieurs et pistes d’action.", frameworkTitle: "Cadre d’intégration", frameworkSub: "Retrouver de l’agence avec faits, hypothèses, besoins et prochains pas.",
+        libraryTitle: "Archive d’échos", librarySub: "Sauvegarder chaque chemin et revoir intérêts, énergie et choix dans la durée.", clearBtn: "Vider",
+        deskTitle: "Déposez d’abord le bruit extérieur et les élans intérieurs", deskSubtitle: "Ce n’a pas besoin d’être complet, correct ou positif. Cet espace accueille d’abord, puis aide à voir ce qui est à vous.",
+        boardTitle: "Trame logique", boardSubtitle: "Tisser sources d’information, échos émotionnels, jugement personnel et prochains pas.",
+        actionTitle: "Petits pas", actionSubtitle: "Pas besoin de changer toute la vie. Trouver un pas supportable pour aujourd’hui.",
+        libraryViewTitle: "Archive d’échos", libraryViewSubtitle: "Revoir les réflexions sauvegardées et repérer ce qui revient vraiment.",
         accountLocal: "Mode aperçu local. Les notes restent dans ce navigateur.", accountLogged: "Connecté : ", accountAnon: "Espace anonyme : ",
         loginError: "Connexion échouée.", logoutError: "Déconnexion échouée. Réessayez.", noSaved: "Aucun élément",
-        emptyLibraryTitle: "Bibliothèque vide", emptyLibraryText: "Après un tri, cliquez sur Sauver pour garder le résultat ici.", open: "Ouvrir", delete: "Supprimer",
+        emptyLibraryTitle: "Aucun écho archivé", emptyLibraryText: "Après un tri, cliquez sur Sauver pour garder les indices de long terme ici.", open: "Ouvrir", delete: "Supprimer",
         summaryKicker: "Première lecture", nextNeed: "Pour l’instant : ", emptyKicker: "Bienvenue. Déposez d’abord.",
         emptyTitle: "Vous n’avez pas besoin d’être clair pour mériter une structure.", emptyText: "Écrivez mots, images, inquiétudes et élans à gauche. Je proposerai une lecture sans jugement, puis une structure.", emptyStep: "Écrire une première phrase.",
-        waitingTitle: "En attente d’une pensée réelle", waitingText: "Plus c’est naturel, plus la carte vous ressemblera.", noThemesTitle: "Pas encore de thèmes", noThemesText: "Après un tri, le tableau apparaîtra ici.", noFrameworkTitle: "Pas encore de cadre", noFrameworkText: "Faits, hypothèses, besoins et prochaines étapes se sépareront automatiquement.",
+        waitingTitle: "En attente d’une pensée réelle", waitingText: "Plus c’est naturel, plus la carte vous ressemblera.", noThemesTitle: "En attente des premiers indices", noThemesText: "Après un tri, sources d’information, échos émotionnels et directions d’action apparaîtront par couches.", noFrameworkTitle: "Le cadre est prêt", noFrameworkText: "Faits, hypothèses, besoins, prochains pas et questions viendront ici.",
+        placeholderThemes: ["Source d’information : quelles nouvelles, relations, plateformes ou événements m’affectent ?", "Corps et émotion : cela me tend, m’élance, m’épuise ou me rend plus clair ?", "Écho personnel : pourquoi cela compte pour moi, quelle valeur ou envie est touchée ?"],
+        placeholderFramework: ["Faits : qu’est-ce que je sais vraiment ?", "Hypothèses : qu’est-ce que je répète mentalement ?", "Besoins : que veux-je protéger ou chercher ?", "Prochain pas : quelle action supportable aujourd’hui ?", "Question : cette information doit-elle entrer dans ma vie ?"],
+        libraryStarters: ["Jugement après surcharge d’information", "Indices longs sur intérêts et capacités", "Réparation d’énergie après événements soudains", "Petites actions pour la prochaine étape"],
         stats: ["Fragments", "Thèmes", "Émotion", "Clarté d’action"],
         themes: { emotion: "Signal émotionnel", creativity: "Créativité", logic: "Logique", action: "Piste d’action", value: "Besoin de valeur", risk: "Question de risque" },
         frameworkBlocks: ["Faits", "Hypothèses", "Besoins", "Prochain pas", "Questions"],
-        saveFeedbackFirst: "Veuillez faire un tri d’abord.", savedDb: "Sauvegardé en base.", savedLocal: "Serveur indisponible ; sauvegardé dans ce navigateur.", copied: "Retour copié pour l’équipe produit.", copyFailed: "Copie impossible. Sélectionnez le texte manuellement."
+        saveFeedbackFirst: "Veuillez faire un tri d’abord.", savedDb: "Sauvegardé en base.", savedLocal: "Serveur indisponible ; sauvegardé dans ce navigateur.", copied: "Retour copié pour l’équipe produit.", copyFailed: "Copie impossible. Sélectionnez le texte manuellement.", feedbackExportTitle: "Retour utilisateur Mind Loom", exportedNextStep: "Prochain pas"
       }
     };
 
@@ -1362,32 +1697,32 @@
 
     const dictionaries = {
       emotion: {
-        label: "情绪信号",
+        label: "身体和情绪",
         color: "coral",
         words: ["担心", "害怕", "焦虑", "难过", "敏感", "委屈", "压力", "不安", "情绪", "害羞", "疲惫", "混乱"]
       },
       creativity: {
-        label: "创造力",
+        label: "灵感火花",
         color: "violet",
         words: ["灵感", "想象", "创造", "画面", "天马行空", "点子", "可能", "设计", "产品", "故事", "概念"]
       },
       logic: {
-        label: "逻辑结构",
+        label: "判断线索",
         color: "blue",
         words: ["事实", "假设", "因为", "所以", "框架", "结构", "判断", "推理", "拆成", "整理"]
       },
       action: {
-        label: "行动线索",
+        label: "可走一步",
         color: "green",
         words: ["下一步", "先", "可以", "需要", "试试", "做", "开始", "落地", "计划", "行动"]
       },
       value: {
-        label: "价值需求",
+        label: "在意的东西",
         color: "teal",
         words: ["价值", "意义", "重要", "需要", "关系", "自由", "安全", "被理解", "温柔", "清晰", "帮助"]
       },
       risk: {
-        label: "风险疑问",
+        label: "担心和疑问",
         color: "gold",
         words: ["担心", "风险", "复杂", "问题", "但是", "怕", "不确定", "会不会", "是否", "只是"]
       }
@@ -1534,11 +1869,24 @@
         writeRecords();
         return;
       }
-      await api(`/api/thoughts/${encodeURIComponent(id)}`, { method: "DELETE" });
+      try {
+        await api(`/api/thoughts/${encodeURIComponent(id)}`, { method: "DELETE" });
+      } catch {
+        backendOnline = false;
+        updateAccountStatus();
+        writeRecords();
+      }
     }
 
     async function clearRemoteThoughts() {
-      if (backendOnline) await api("/api/thoughts", { method: "DELETE" });
+      if (!backendOnline) return;
+      try {
+        await api("/api/thoughts", { method: "DELETE" });
+      } catch {
+        backendOnline = false;
+        updateAccountStatus();
+        writeRecords();
+      }
     }
 
     async function persistFeedback(item) {
@@ -1546,7 +1894,12 @@
       items.unshift(item);
       writeFeedback(items.slice(0, 100));
       if (backendOnline) {
-        await api("/api/feedback", { method: "POST", body: JSON.stringify(item) });
+        try {
+          await api("/api/feedback", { method: "POST", body: JSON.stringify(item) });
+        } catch {
+          backendOnline = false;
+          updateAccountStatus();
+        }
       }
     }
 
@@ -1608,15 +1961,15 @@
 
     function makeQuestions(themes, mode) {
       const lead = {
-        gentle: "现在最需要被接住的感受是什么？",
-        logic: "这里哪一个判断还缺少证据？",
-        creative: "如果不急着收敛，哪个点子最值得继续长大？"
+        gentle: "如果先不解决问题，哪一种感受最需要被看见？",
+        logic: "哪一个判断可以先放慢一点，等证据再说？",
+        creative: "如果不急着收敛，哪个念头还想继续长大？"
       };
       const top = themes[0]?.label || "核心主题";
       return [
         lead[mode],
-        `围绕“${top}”，哪些内容是事实，哪些只是预期？`,
-        "只做一个很小的下一步，哪一步会让心里更有空间？"
+        `围绕“${top}”，哪些是你已经知道的，哪些只是脑内预演？`,
+        "如果只做一件很小的事，哪一步会让你明天轻一点？"
       ];
     }
 
@@ -1628,7 +1981,7 @@
       const actionScore = countMatches(text, dictionaries.action.words);
       const creativityScore = countMatches(text, dictionaries.creativity.words);
       const energy = Number(energyRange.value);
-      const pace = energy <= 2 ? "慢整理" : energy >= 4 ? "快收敛" : "稳步推进";
+      const pace = energy <= 2 ? "先慢一点" : energy >= 4 ? "可以往前推一点" : "稳稳地拆开";
 
       return {
         id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
@@ -1646,18 +1999,19 @@
           { label: tr("stats")[3], value: Math.min(5, Math.max(1, actionScore + Math.floor(creativityScore / 2))) }
         ],
         summary: makeSummary(fragments, themes, activeMode, energy),
+        actions: makeActions(fragments, themes, activeMode, energy),
         signals: [
           {
-            title: "先承认接收量很高",
-            text: fragments.length > 5 ? "这里同时有很多线索，先分层比立刻决策更合适。" : "内容量不大，适合直接抽出一个行动点。"
+            title: "你接住的东西不少",
+            text: fragments.length > 5 ? "这里有很多同时涌上来的线索。先把它们放到不同位置，比逼自己马上清楚更友好。" : "这里已经有一个起点了。它不需要很完整，也值得被认真放好。"
           },
           {
-            title: "当前节奏建议",
-            text: `${pace}：${energy <= 2 ? "减少选项，只保留一个最轻动作。" : energy >= 4 ? "可以快速形成原型或对外验证。" : "先拆清事实、假设和下一步。"}`
+            title: "按现在的心力来",
+            text: `${pace}：${energy <= 2 ? "先别给自己太多任务，只留下一个最轻的小动作。" : energy >= 4 ? "可以把一个想法往外推一点，做成小提纲或小验证。" : "把已经知道的、正在猜的、可以做的分开放。"}`
           },
           {
-            title: "主要张力",
-            text: activeMode === "creative" ? "创造力正在扩散，需要一个容器而不是立刻压扁。" : activeMode === "logic" ? "判断链条需要被显性化，尤其是证据和假设。" : "感受和逻辑都重要，先分开放，再重新组合。"
+            title: "这里真正拉扯你的地方",
+            text: activeMode === "creative" ? "有些灵感还没长成形状，不必急着压平。先给它一个能呼吸的位置。" : activeMode === "logic" ? "你可能已经想了很多层。现在适合把证据和猜测分开，让脑内循环少一点。" : "感受和判断都在场。我们先不争输赢，只把它们各自放稳。"
           }
         ],
         framework: {
@@ -1672,40 +2026,72 @@
 
     function makeTitle(fragments, themes) {
       const first = fragments[0] || "新的思考整理";
-      const short = first.length > 22 ? first.slice(0, 22) + "..." : first;
-      return `${themes[0]?.label || "思路"} · ${short}`;
+      const clean = first.replace(/^.+?：/, "");
+      const short = clean.length > 22 ? clean.slice(0, 22) + "..." : clean;
+      return `${themes[0]?.label || "这一轮思绪"} · ${short}`;
     }
 
     function makeSummary(fragments, themes, mode, energy) {
       const topLabels = themes.slice(0, 3).map((theme) => theme.label).join("、") || "几个还没命名的线索";
       const opening = fragments.length > 5
-        ? "这不是单纯的混乱，而是很多线索在同一时间涌上来。"
-        : "这里已经有一个可以被看见的起点。";
+        ? "我能感觉到，你不是乱，而是在同时接住很多东西。"
+        : "这里已经有一个很真实的起点。";
       const modeLine = {
-        gentle: "先不用急着证明什么，我们先把感受和线索分开放。",
-        logic: "接下来适合把事实、假设和证据拆开，减少脑内反复推演。",
-        creative: "这些想法里有可继续生长的东西，先给它们一个容器。"
+        gentle: "我们先不急着证明什么，只把感受、担心和想要的东西分开放。",
+        logic: "接下来可以把已经发生的、正在猜的、真正想守住的分开，脑子会轻一点。",
+        creative: "这些想法里有还没长成形的部分，可以先给它们一个位置，不急着评判。"
       }[mode];
       const step = energy <= 2
-        ? "只选一个最轻的小动作：圈出最在意的一句话。"
+        ? "先只圈出最在意的一句话。今天不用再多做。"
         : energy >= 4
-          ? "可以进入下一步：选一个主题做成小原型或提纲。"
-          : "先做一件事：把最重要的主题和一个可行动步骤连起来。";
+          ? "选一个最有生命力的主题，写成三行小提纲或做一次很小的验证。"
+          : "把最重要的主题，和一个你今天能承受的小动作连起来。";
 
       return {
         title: opening,
-        text: `我先看到的是：${topLabels}。${modeLine}`,
+        text: `我先看到几条线：${topLabels}。${modeLine}`,
         step
       };
+    }
+
+    function makeActions(fragments, themes, mode, energy) {
+      const top = themes[0]?.label || "这一轮思绪";
+      const actionSeed = classify(fragments, "actions")[0] || fragments[0] || "把这件事写得再具体一点";
+      const softStep = energy <= 2
+        ? `只保留一个很小的动作：把“${shortText(actionSeed, 22)}”写到明天的待办里，不要求完成。`
+        : energy >= 4
+          ? `给“${shortText(top, 14)}”做一个 20 分钟的小试验，结束后只记录感受，不急着评分。`
+          : `选一句最在意的话，旁边写下：我现在能做的最小一步是什么？`;
+      const guard = mode === "logic"
+        ? "先不要继续在脑内反复推演。把缺少证据的地方标出来，等有新信息再判断。"
+        : mode === "creative"
+          ? "先不要急着把每个灵感都变成计划。留下最亮的一个，其余先存档。"
+          : "先不要把所有感受都解释成问题。它们也可能只是提醒你需要休息或边界。";
+      const ask = energy <= 2
+        ? "找一个不评判的人，只说一句：我现在有点被信息淹到，想先说出来。"
+        : "找一个小信息源：问一个人、查一个资料，或写下一个更准确的问题。";
+
+      return [
+        { title: tr("actionSoftTitle"), text: softStep, note: tr("actionSoftNote") },
+        { title: tr("actionGuardTitle"), text: guard, note: tr("actionGuardNote") },
+        { title: tr("actionAskTitle"), text: ask, note: tr("actionAskNote") }
+      ];
+    }
+
+    function shortText(value, length) {
+      const text = String(value || "").replace(/^.+?：/, "").trim();
+      return text.length > length ? `${text.slice(0, length)}...` : text;
     }
 
     function render(result) {
       current = result;
       feedbackInput.value = "";
       feedbackStatus.textContent = "";
+      saveStatus.textContent = tr("saveReady");
       currentRating = 0;
       $$(".rating-btn").forEach((button) => button.classList.remove("active"));
       renderSummary(result);
+      renderActions(result.actions || makeActions(result.fragments, result.themes, result.mode, result.energy));
       renderStats(result);
       renderSignals(result);
       renderMap(result);
@@ -1720,6 +2106,17 @@
         <p class="summary-text">${escapeHtml(result.summary.text)}</p>
         <div class="next-step"><strong>${escapeHtml(tr("nextNeed"))}</strong>${escapeHtml(result.summary.step)}</div>
       `;
+    }
+
+    function renderActions(actions) {
+      const html = actions.map((item) => `
+        <article class="action-card">
+          <h4>${escapeHtml(item.title)}</h4>
+          <p>${escapeHtml(item.text)}</p>
+          <span>${escapeHtml(item.note)}</span>
+        </article>
+      `).join("");
+      actionGridFull.innerHTML = html;
     }
 
     function renderStats(result) {
@@ -1818,11 +2215,25 @@
     }
 
     function renderEmpty() {
+      saveStatus.textContent = "";
       summaryCard.innerHTML = `
         <p class="summary-kicker">${escapeHtml(tr("emptyKicker"))}</p>
         <h3 class="summary-title">${escapeHtml(tr("emptyTitle"))}</h3>
         <p class="summary-text">${escapeHtml(tr("emptyText"))}</p>
         <div class="next-step"><strong>${escapeHtml(tr("nextNeed"))}</strong>${escapeHtml(tr("emptyStep"))}</div>
+      `;
+      actionGridFull.innerHTML = `
+        <div class="empty compact">
+          <div>
+            <strong>${escapeHtml(tr("actionWaitingTitle"))}</strong>
+            <span>${escapeHtml(tr("actionWaitingText"))}</span>
+            <ul class="placeholder-list">
+              <li>${escapeHtml(tr("emptyAction1"))}</li>
+              <li>${escapeHtml(tr("emptyAction2"))}</li>
+              <li>${escapeHtml(tr("emptyAction3"))}</li>
+            </ul>
+          </div>
+        </div>
       `;
       stats.innerHTML = tr("stats").map((label) => `
         <div class="stat"><b>0</b><span>${escapeHtml(label)}</span></div>
@@ -1836,8 +2247,29 @@
           <path d="M34 50h32M50 34v32" stroke="#61736a" stroke-width="1.4" stroke-linecap="round"></path>
         </svg>
       `;
-      themeColumns.innerHTML = `<div class="empty"><div><strong>${escapeHtml(tr("noThemesTitle"))}</strong><span>${escapeHtml(tr("noThemesText"))}</span></div></div>`;
-      framework.innerHTML = `<div class="empty"><div><strong>${escapeHtml(tr("noFrameworkTitle"))}</strong><span>${escapeHtml(tr("noFrameworkText"))}</span></div></div>`;
+      themeColumns.innerHTML = `
+        <div class="empty compact">
+          <div>
+            <strong>${escapeHtml(tr("noThemesTitle"))}</strong>
+            <span>${escapeHtml(tr("noThemesText"))}</span>
+            <ul class="placeholder-list">
+              ${tr("placeholderThemes").map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            </ul>
+          </div>
+        </div>
+      `;
+      framework.innerHTML = tr("placeholderFramework").map((item, index) => {
+        const [title, detail] = item.split(/[:：]/);
+        return `
+          <section class="frame-block">
+            <h4>${escapeHtml(title || item)}</h4>
+            <ul>
+              <li>${escapeHtml(detail || tr("noFrameworkText"))}</li>
+              ${index === 0 ? `<li>${escapeHtml(tr("noFrameworkText"))}</li>` : ""}
+            </ul>
+          </section>
+        `;
+      }).join("");
     }
 
     function renderSaved() {
@@ -1851,17 +2283,27 @@
 
     function renderLibrary() {
       if (!records.length) {
-        libraryGrid.innerHTML = `<div class="empty"><div><strong>灵感库是空的</strong><span>梳理后点击保存，就能把结果留在这里。</span></div></div>`;
+        libraryGrid.innerHTML = `
+          <div class="empty compact">
+            <div>
+              <strong>${escapeHtml(tr("emptyLibraryTitle"))}</strong>
+              <span>${escapeHtml(tr("emptyLibraryText"))}</span>
+              <ul class="placeholder-list">
+                ${tr("libraryStarters").map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+              </ul>
+            </div>
+          </div>
+        `;
         return;
       }
       libraryGrid.innerHTML = records.map((record) => `
         <article class="thought-card">
           <div class="chip-row">
-            <span class="chip ${record.themes[0]?.color || "teal"}">${escapeHtml(record.themes[0]?.label || "思路")}</span>
+            <span class="chip ${(record.themes || [])[0]?.color || "teal"}">${escapeHtml((record.themes || [])[0]?.label || "思路")}</span>
             <span class="chip">${escapeHtml(modeLabel(record.mode))}</span>
           </div>
-          <p><strong>${escapeHtml(record.title)}</strong></p>
-          <p>${escapeHtml(record.source.slice(0, 120))}${record.source.length > 120 ? "..." : ""}</p>
+          <p><strong>${escapeHtml(record.title || tr("emptyKicker"))}</strong></p>
+          <p>${escapeHtml(record.summary?.step || (record.source || "").slice(0, 120))}${record.summary?.step ? "" : (record.source || "").length > 120 ? "..." : ""}</p>
           <div class="control-row">
             <button class="ghost-btn" data-load="${record.id}">${escapeHtml(tr("open"))}</button>
             <button class="ghost-btn" data-delete="${record.id}">${escapeHtml(tr("delete"))}</button>
@@ -1875,21 +2317,62 @@
     }
 
     async function saveCurrent() {
-      if (!current) return;
+      if (!current) {
+        saveStatus.textContent = tr("saveFirst");
+        return;
+      }
+      if (!current.actions) current.actions = makeActions(current.fragments, current.themes, current.mode, current.energy);
       records = [current, ...records.filter((record) => record.id !== current.id)].slice(0, 100);
       renderSaved();
       renderLibrary();
       await persistThought(current);
+      saveStatus.textContent = tr("saveDone");
     }
 
     function loadRecord(id) {
-      const record = records.find((item) => item.id === id);
+      const record = normalizeRecord(records.find((item) => item.id === id));
       if (!record) return;
       fillGuidedInputs({ thoughtInput: record.source });
       activeMode = record.mode;
       $$(".segmented button").forEach((button) => button.classList.toggle("active", button.dataset.mode === activeMode));
       render(record);
       switchView("desk");
+    }
+
+    function normalizeRecord(record) {
+      if (!record) return null;
+      const source = record.source || "";
+      const fragments = record.fragments?.length ? record.fragments : splitThoughts(source);
+      const themes = record.themes?.length ? record.themes : assignFragments(fragments, topThemes(fragments));
+      const mode = record.mode || activeMode;
+      const energy = record.energy || Number(energyRange.value);
+      return {
+        ...record,
+        id: record.id || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
+        createdAt: record.createdAt || new Date().toISOString(),
+        mode,
+        energy,
+        source,
+        fragments,
+        themes,
+        title: record.title || makeTitle(fragments, themes),
+        stats: record.stats || [
+          { label: tr("stats")[0], value: fragments.length },
+          { label: tr("stats")[1], value: themes.length },
+          { label: tr("stats")[2], value: 1 },
+          { label: tr("stats")[3], value: 1 }
+        ],
+        summary: record.summary || makeSummary(fragments, themes, mode, energy),
+        actions: record.actions || makeActions(fragments, themes, mode, energy),
+        signals: record.signals || [],
+        framework: record.framework || {
+          facts: classify(fragments, "facts"),
+          assumptions: classify(fragments, "assumptions"),
+          needs: classify(fragments, "needs"),
+          actions: classify(fragments, "actions"),
+          questions: makeQuestions(themes, mode)
+        }
+      };
     }
 
     async function deleteRecord(id) {
@@ -1900,7 +2383,11 @@
     }
 
     function exportMarkdown() {
-      if (!current) return;
+      if (!current) {
+        saveStatus.textContent = tr("saveFirst");
+        return;
+      }
+      if (!current.actions) current.actions = makeActions(current.fragments, current.themes, current.mode, current.energy);
       const feedbackItems = readFeedback().filter((item) => item.thoughtId === current.id);
       const latestFeedback = feedbackItems[0];
       const lines = [
@@ -1912,16 +2399,19 @@
         "## 情绪与节奏",
         ...current.signals.map((signal) => `- ${signal.title}：${signal.text}`),
         "",
+        `## ${tr("actionKicker")}`,
+        ...(current.actions || []).map((item) => `- ${item.title}：${item.text}`),
+        "",
         "## 主题簇",
         ...current.themes.map((theme) => `- ${theme.label}：${theme.items.join("；")}`),
         "",
         "## 理性框架",
         ...Object.entries({
-          "事实": current.framework.facts,
-          "假设": current.framework.assumptions,
-          "需求": current.framework.needs,
-          "下一步": current.framework.actions,
-          "追问": current.framework.questions
+          [tr("frameworkBlocks")[0]]: current.framework.facts,
+          [tr("frameworkBlocks")[1]]: current.framework.assumptions,
+          [tr("frameworkBlocks")[2]]: current.framework.needs,
+          [tr("frameworkBlocks")[3]]: current.framework.actions,
+          [tr("frameworkBlocks")[4]]: current.framework.questions
         }).flatMap(([title, items]) => [`### ${title}`, ...items.map((item) => `- ${item}`), ""]),
         latestFeedback ? "## 用户反馈" : "",
         latestFeedback ? `- 评分：${latestFeedback.rating || "未评分"}` : "",
@@ -1940,6 +2430,7 @@
       const titleMap = {
         desk: [tr("deskTitle"), tr("deskSubtitle")],
         board: [tr("boardTitle"), tr("boardSubtitle")],
+        action: [tr("actionTitle"), tr("actionSubtitle")],
         library: [tr("libraryViewTitle"), tr("libraryViewSubtitle")]
       };
       $$(".view").forEach((item) => item.classList.remove("active"));
@@ -1960,6 +2451,7 @@
         text = buildThoughtText();
       }
       render(analyze(text));
+      saveStatus.textContent = tr("saveReady");
     });
 
     $("#saveBtn").addEventListener("click", saveCurrent);
@@ -1967,10 +2459,11 @@
     $("#sampleBtn").addEventListener("click", () => {
       fillGuidedInputs(sampleFields);
       render(analyze(buildThoughtText()));
+      saveStatus.textContent = tr("saveReady");
     });
     $$(".prompt-btn").forEach((button) => {
       button.addEventListener("click", () => {
-        const prefix = button.dataset.prompt;
+        const prefix = tr(button.dataset.promptKey);
         const target = document.getElementById(button.dataset.target) || input;
         target.value = target.value.trim() ? `${target.value.trim()}\n${prefix}` : prefix;
         target.focus();
@@ -1980,6 +2473,7 @@
       records = [];
       renderSaved();
       renderLibrary();
+      saveStatus.textContent = current ? tr("saveReady") : "";
       localStorage.removeItem(storageKey);
       await clearRemoteThoughts();
     });
@@ -2036,7 +2530,7 @@
         return;
       }
       const payload = [
-        "Mind Loom — 边缘与回声 用户反馈",
+        tr("feedbackExportTitle"),
         `时间：${new Date().toLocaleString("zh-CN")}`,
         `模式：${modeLabel(current.mode)}`,
         `评分：${currentRating || "未评分"}`,
@@ -2045,7 +2539,7 @@
         "整理摘要：",
         current.summary.title,
         current.summary.text,
-        `下一步：${current.summary.step}`
+        `${tr("exportedNextStep")}：${current.summary.step}`
       ].join("\n");
       try {
         await navigator.clipboard.writeText(payload);
