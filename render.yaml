@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: mind-loom
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "HOST=0.0.0.0 DATA_DIR=/tmp COOKIE_SECURE=true python3 server.py"
+    autoDeploy: true
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true

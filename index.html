@@ -1,0 +1,1926 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mind Loom — 边缘与回声</title>
+  <style>
+    :root {
+      --bg: #f5f8f4;
+      --panel: #ffffff;
+      --panel-soft: #edf4ed;
+      --ink: #17251f;
+      --muted: #61736a;
+      --line: #d6e1d8;
+      --teal: #0f4f3f;
+      --blue: #47675f;
+      --coral: #8f5d4f;
+      --gold: #7d6a38;
+      --violet: #5f6d5a;
+      --green: #1f6b4d;
+      --shadow: 0 18px 44px rgba(15, 79, 63, 0.08);
+      --radius: 8px;
+      color-scheme: light;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, textarea, input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    button:focus-visible, textarea:focus-visible, input:focus-visible {
+      outline: 3px solid rgba(15, 79, 63, 0.22);
+      outline-offset: 2px;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: #10392f;
+      color: #f8fbf8;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-height: 100vh;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 44px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: #f8fbf8;
+      color: #10392f;
+      flex: 0 0 auto;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.15;
+    }
+
+    .brand p {
+      margin: 2px 0 0;
+      color: #b8cec4;
+      font-size: 12px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav button {
+      min-height: 42px;
+      border-radius: 8px;
+      padding: 0 12px;
+      color: #d9e8df;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .nav button.active {
+      background: #1f5a49;
+      color: #ffffff;
+    }
+
+    .nav svg, .icon {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+    }
+
+    .library-mini {
+      border-top: 1px solid rgba(217, 232, 223, 0.18);
+      padding-top: 16px;
+      display: grid;
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .library-mini h2 {
+      margin: 0;
+      font-size: 13px;
+      color: #d9e8df;
+      font-weight: 650;
+    }
+
+    .saved-list {
+      display: grid;
+      gap: 8px;
+      overflow: auto;
+      max-height: 38vh;
+      padding-right: 2px;
+    }
+
+    .saved-item {
+      min-height: 50px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #eef7f0;
+      padding: 9px 10px;
+      display: grid;
+      gap: 3px;
+      text-align: left;
+    }
+
+    .saved-item span {
+      color: #b8cec4;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .account-box {
+      border-top: 1px solid rgba(217, 232, 223, 0.18);
+      padding-top: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .account-box h2 {
+      margin: 0;
+      font-size: 13px;
+      color: #d9e8df;
+      font-weight: 650;
+    }
+
+    .account-box p {
+      margin: 0;
+      color: #b8cec4;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .account-form {
+      display: grid;
+      gap: 8px;
+    }
+
+    .account-input {
+      width: 100%;
+      min-height: 38px;
+      border-radius: 8px;
+      border: 1px solid rgba(217, 232, 223, 0.24);
+      background: rgba(255, 255, 255, 0.09);
+      color: #ffffff;
+      padding: 0 10px;
+      font-size: 13px;
+    }
+
+    .account-input::placeholder {
+      color: #a9c3b8;
+    }
+
+    .account-btn {
+      min-height: 38px;
+      border-radius: 8px;
+      background: #eef7f0;
+      color: #10392f;
+      padding: 0 10px;
+      font-weight: 650;
+    }
+
+    .account-link {
+      color: #d9e8df;
+      font-size: 12px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      min-height: 70px;
+      background: rgba(245, 248, 244, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .topbar h2 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .topbar p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .topbar-copy {
+      max-width: 640px;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .segmented {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      padding: 3px;
+      background: #e4eee6;
+      border-radius: 8px;
+      gap: 2px;
+    }
+
+    .segmented button {
+      min-height: 32px;
+      border-radius: 6px;
+      padding: 0 12px;
+      background: transparent;
+      color: #52665c;
+      white-space: nowrap;
+    }
+
+    .segmented button.active {
+      background: #ffffff;
+      color: var(--ink);
+      box-shadow: 0 2px 10px rgba(15, 79, 63, 0.08);
+    }
+
+    .ghost-btn, .primary-btn, .icon-btn {
+      min-height: 38px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .ghost-btn {
+      padding: 0 12px;
+      background: #ffffff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .primary-btn {
+      padding: 0 14px;
+      background: var(--teal);
+      color: #ffffff;
+      box-shadow: 0 10px 22px rgba(15, 79, 63, 0.18);
+    }
+
+    .icon-btn {
+      width: 38px;
+      background: #ffffff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      position: relative;
+    }
+
+    [data-tip]::after {
+      content: attr(data-tip);
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      background: #10392f;
+      color: #ffffff;
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-3px);
+      transition: 160ms ease;
+      z-index: 20;
+      width: max-content;
+      max-width: 180px;
+    }
+
+    [data-tip]:hover::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .workspace {
+      padding: 22px 24px 28px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: grid;
+      gap: 18px;
+    }
+
+    .desk-grid {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.9fr) minmax(420px, 1.25fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
+    .panel-header {
+      min-height: 58px;
+      border-bottom: 1px solid var(--line);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .panel-header h3 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .panel-header p {
+      margin: 2px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .input-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .safe-note {
+      border: 1px solid #c9ded2;
+      border-radius: 8px;
+      background: #eef8f1;
+      padding: 12px 13px;
+      color: #214d3d;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .trust-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .trust-item {
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfdfb;
+      padding: 9px 10px;
+      color: #52665c;
+      font-size: 12px;
+      line-height: 1.35;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .trust-item svg {
+      width: 16px;
+      height: 16px;
+      color: var(--teal);
+      flex: 0 0 auto;
+    }
+
+    .prompt-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .prompt-btn {
+      min-height: 40px;
+      border-radius: 8px;
+      padding: 0 10px;
+      background: #f8fbf8;
+      color: #34483f;
+      border: 1px solid var(--line);
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    .guided-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .guided-field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .guided-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .guided-field label {
+      color: #214d3d;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .guided-field span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 116px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfdfb;
+      color: var(--ink);
+      padding: 14px;
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    textarea::placeholder {
+      color: #81958a;
+    }
+
+    .guided-field.full textarea {
+      min-height: 150px;
+    }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .range-control {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 13px;
+      min-width: 220px;
+    }
+
+    .range-control input {
+      accent-color: var(--teal);
+      width: 110px;
+    }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      user-select: none;
+    }
+
+    .toggle input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--teal);
+    }
+
+    .feedback-panel {
+      border-top: 1px solid var(--line);
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .feedback-panel h4 {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .feedback-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
+    .rating-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .rating-btn {
+      width: 38px;
+      min-height: 38px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: #34483f;
+      font-weight: 700;
+    }
+
+    .rating-btn.active {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #ffffff;
+    }
+
+    .feedback-input {
+      width: 100%;
+      min-height: 86px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 11px;
+      background: #fbfdfb;
+      color: var(--ink);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .feedback-status {
+      color: var(--teal);
+      font-size: 13px;
+      min-height: 18px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .summary-card {
+      border: 1px solid #c9ded2;
+      border-radius: 8px;
+      background: #f1f8f2;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-kicker {
+      margin: 0;
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .summary-title {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.35;
+      color: #123b2d;
+    }
+
+    .summary-text {
+      margin: 0;
+      color: #40564a;
+      line-height: 1.58;
+      font-size: 14px;
+    }
+
+    .next-step {
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid #d2e8d9;
+      padding: 11px 12px;
+      color: #263f34;
+      line-height: 1.48;
+      font-size: 14px;
+    }
+
+    .next-step strong {
+      color: var(--teal);
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfdfb;
+      min-height: 74px;
+    }
+
+    .stat b {
+      display: block;
+      font-size: 22px;
+      line-height: 1.1;
+    }
+
+    .stat span {
+      margin-top: 5px;
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .insight-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 260px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .map-area {
+      min-height: 270px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(180deg, #fbfdfb 0%, #eef6ef 100%);
+      overflow: hidden;
+    }
+
+    .map-area svg {
+      width: 100%;
+      height: 270px;
+      display: block;
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .signal-list-title {
+      margin: 0 0 2px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .signal {
+      border-left: 4px solid var(--teal);
+      background: #f8fbf8;
+      border-radius: 8px;
+      padding: 10px 11px;
+    }
+
+    .signal strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .signal p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .lane {
+      min-width: 0;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .lane h4 {
+      margin: 0;
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lane-content {
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+      min-height: 160px;
+    }
+
+    .thought-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 11px;
+      background: #fbfdfb;
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .thought-card p {
+      margin: 0;
+      line-height: 1.5;
+      font-size: 13px;
+      color: #2e3f36;
+      overflow-wrap: anywhere;
+    }
+
+    .chip-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 4px 8px;
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      background: #e4eee6;
+      color: #52665c;
+      font-size: 12px;
+      max-width: 100%;
+    }
+
+    .chip.teal { background: #dcefe4; color: #0f4f3f; }
+    .chip.coral { background: #f4e5df; color: #7d4a3f; }
+    .chip.gold { background: #f2ecd4; color: #6b5a2f; }
+    .chip.violet { background: #e6eee1; color: #54634f; }
+    .chip.green { background: #dfeee5; color: #1f6b4d; }
+    .chip.blue { background: #e1ece8; color: #47675f; }
+
+    .framework {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .frame-block {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 14px;
+      min-height: 150px;
+    }
+
+    .frame-block h4 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: #1f3329;
+    }
+
+    .frame-block ul, .frame-block ol {
+      margin: 0;
+      padding-left: 19px;
+      color: #3f5148;
+      line-height: 1.55;
+      font-size: 13px;
+    }
+
+    .frame-block li + li {
+      margin-top: 7px;
+    }
+
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .empty {
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed #b8cabc;
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .empty strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+    }
+
+    .low-stimulus {
+      --bg: #f8fbf8;
+      --panel-soft: #f1f6f1;
+      --teal: #315f4e;
+      --blue: #5e726b;
+      --coral: #806256;
+      --gold: #766a46;
+      --violet: #697461;
+      --green: #51705c;
+      --shadow: 0 10px 30px rgba(15, 79, 63, 0.05);
+    }
+
+    @media (max-width: 1080px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        min-height: auto;
+        position: static;
+      }
+
+      .saved-list {
+        max-height: 180px;
+      }
+
+      .desk-grid, .insight-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 740px) {
+      .topbar {
+        position: static;
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px;
+      }
+
+      .workspace {
+        padding: 16px;
+      }
+
+      .toolbar, .control-row {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .segmented {
+        width: 100%;
+        overflow-x: auto;
+      }
+
+      .stats, .columns, .framework {
+        grid-template-columns: 1fr;
+      }
+
+      .trust-strip, .prompt-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .guided-grid {
+        grid-template-columns: 1fr;
+      }
+
+      textarea {
+        min-height: 260px;
+      }
+
+      .guided-field textarea {
+        min-height: 116px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 13c4-8 12-8 16 0"></path>
+            <path d="M7 13c2.5-4 7.5-4 10 0"></path>
+            <path d="M12 13v7"></path>
+            <path d="M8 20h8"></path>
+          </svg>
+        </div>
+        <div>
+          <h1>Mind Loom — 边缘与回声</h1>
+          <p>把丰沛想法织成清晰路径</p>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="主要区域">
+        <button class="active" data-view="desk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h10"></path></svg>
+          梳理台
+        </button>
+        <button data-view="board">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"></path><path d="M15 4v16"></path></svg>
+          结构板
+        </button>
+        <button data-view="library">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"></path><path d="M8 4v13a3 3 0 0 0 3 3"></path></svg>
+          灵感库
+        </button>
+      </nav>
+
+      <section class="account-box">
+        <h2>身份</h2>
+        <p id="accountStatus">正在创建匿名空间...</p>
+        <div class="account-form">
+          <input class="account-input" id="emailInput" type="email" autocomplete="email" placeholder="邮箱登录，可跨设备保存">
+          <button class="account-btn" id="loginBtn">登录 / 创建账号</button>
+          <button class="account-btn" id="logoutBtn">退出登录</button>
+        </div>
+        <a class="account-link" href="/privacy" target="_blank" rel="noreferrer">隐私政策</a>
+      </section>
+
+      <section class="library-mini">
+        <h2>最近保存</h2>
+        <div class="saved-list" id="savedList"></div>
+      </section>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-copy">
+          <h2 id="viewTitle">把脑子里的东西先倒在这里</h2>
+          <p id="viewSubtitle">不用完整、不用有逻辑，也不用马上变好。这里会先接住，再慢慢帮你分层。</p>
+        </div>
+        <div class="toolbar">
+          <div class="segmented" role="group" aria-label="思考模式">
+            <button class="active" data-mode="gentle">轻柔整理</button>
+            <button data-mode="logic">逻辑推演</button>
+            <button data-mode="creative">创意发散</button>
+          </div>
+          <button class="icon-btn" id="sampleBtn" data-tip="放入示例" aria-label="放入示例">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"></path><path d="M3 12h18"></path></svg>
+          </button>
+          <button class="icon-btn" id="exportBtn" data-tip="导出摘要" aria-label="导出摘要">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <section class="view active" id="deskView">
+          <div class="desk-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <h3>安全倾倒区</h3>
+                  <p>想到什么写什么，矛盾、跳跃、重复都可以。</p>
+                </div>
+              </div>
+              <div class="panel-body input-stack">
+                <div class="safe-note">这里不会评价你写得乱不乱。你可以先把画面、担心、灵感和没说完的半句话都放下。</div>
+                <div class="trust-strip" aria-label="使用说明">
+                  <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    匿名或登录后保存到数据库
+                  </div>
+                  <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"></path></svg>
+                    不评价、不打分、不诊断
+                  </div>
+                  <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4"></path><path d="M12 16h.01"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                    适合思路整理，不替代专业帮助
+                  </div>
+                </div>
+                <div class="prompt-grid" aria-label="快速开始">
+                  <button class="prompt-btn" data-target="field-noise" data-prompt="我脑子里现在最吵的是：">我脑子里现在最吵的是</button>
+                  <button class="prompt-btn" data-target="field-idea" data-prompt="我有一个想法，但还没想清楚：">我有一个想法，但还没想清楚</button>
+                  <button class="prompt-btn" data-target="field-need" data-prompt="我不确定自己为什么在意这件事：">我不确定自己为什么在意</button>
+                </div>
+                <div class="guided-grid" id="guidedInputs">
+                  <div class="guided-field">
+                    <label for="field-noise">此刻最吵的念头</label>
+                    <span>不用概括，只写最先冒出来的那一句。</span>
+                    <textarea id="field-noise" data-label="此刻最吵的念头" placeholder="例如：我一直在想这件事会不会做不成..."></textarea>
+                  </div>
+                  <div class="guided-field">
+                    <label for="field-feeling">情绪 / 身体信号</label>
+                    <span>紧、酸、兴奋、委屈、麻木，都算线索。</span>
+                    <textarea id="field-feeling" data-label="情绪和身体信号" placeholder="例如：胸口有点紧，但也有一点期待..."></textarea>
+                  </div>
+                  <div class="guided-field">
+                    <label for="field-worry">我在担心什么</label>
+                    <span>把脑内预警写出来，它就不用一直循环。</span>
+                    <textarea id="field-worry" data-label="我在担心什么" placeholder="例如：担心别人觉得这只是普通笔记工具..."></textarea>
+                  </div>
+                  <div class="guided-field">
+                    <label for="field-idea">灵感 / 画面 / 可能性</label>
+                    <span>写天马行空的部分，暂时不需要可行。</span>
+                    <textarea id="field-idea" data-label="灵感、画面和可能性" placeholder="例如：我想象它像一个温柔的思考房间..."></textarea>
+                  </div>
+                  <div class="guided-field">
+                    <label for="field-need">我真正想要的</label>
+                    <span>可能是安全感、清晰感、连接感或创造空间。</span>
+                    <textarea id="field-need" data-label="我真正想要的" placeholder="例如：我想要一种既被理解又能往前走的感觉..."></textarea>
+                  </div>
+                  <div class="guided-field">
+                    <label for="field-step">现在能承受的一小步</label>
+                    <span>越小越好，小到不会让自己紧绷。</span>
+                    <textarea id="field-step" data-label="现在能承受的一小步" placeholder="例如：先写三个用户会输入的真实句子..."></textarea>
+                  </div>
+                  <div class="guided-field full">
+                    <label for="thoughtInput">自由补充</label>
+                    <span>还有没地方放的半句话、关系线索、冲突感，都可以倒在这里。</span>
+                    <textarea id="thoughtInput" data-label="自由补充" placeholder="直接写就好：我现在想到... 我有点担心... 但又觉得... 还有一个画面是..."></textarea>
+                  </div>
+                </div>
+                <div class="control-row">
+                  <label class="range-control">
+                    心力余量
+                    <input id="energyRange" type="range" min="1" max="5" value="3">
+                    <span id="energyLabel">中等</span>
+                  </label>
+                  <label class="toggle">
+                    <input id="calmToggle" type="checkbox">
+                    低刺激模式
+                  </label>
+                  <button class="primary-btn" id="analyzeBtn">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M8 14a6 6 0 1 1 8 0c-.7.6-1 1.2-1 2H9c0-.8-.3-1.4-1-2z"></path></svg>
+                    开始梳理
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <h3>先被理解</h3>
+                  <p>结果会先给你一个温柔概括，再进入结构。</p>
+                </div>
+                <button class="ghost-btn" id="saveBtn">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg>
+                  保存
+                </button>
+              </div>
+              <div class="panel-body">
+                <div class="summary-card" id="summaryCard"></div>
+              </div>
+              <div class="panel-body">
+                <div class="stats" id="stats"></div>
+              </div>
+              <div class="panel-body insight-layout">
+                <div class="map-area" id="mapArea"></div>
+                <div class="signal-list" id="signals"></div>
+              </div>
+              <div class="feedback-panel">
+                <div>
+                  <h4>这次整理有帮助吗？</h4>
+                  <p>给真实用户测试时，可以请他们在这里留下一句话。反馈会保存到数据库；离线时暂存在当前浏览器。</p>
+                </div>
+                <div class="rating-row" aria-label="帮助程度评分">
+                  <button class="rating-btn" data-rating="1">1</button>
+                  <button class="rating-btn" data-rating="2">2</button>
+                  <button class="rating-btn" data-rating="3">3</button>
+                  <button class="rating-btn" data-rating="4">4</button>
+                  <button class="rating-btn" data-rating="5">5</button>
+                </div>
+                <textarea class="feedback-input" id="feedbackInput" placeholder="例如：哪句话让你放松了？哪里还是太分析化？你下一步会不会继续用？"></textarea>
+                <div class="control-row">
+                  <button class="ghost-btn" id="feedbackSaveBtn">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg>
+                    保存反馈
+                  </button>
+                  <button class="ghost-btn" id="feedbackCopyBtn">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><rect x="2" y="2" width="13" height="13" rx="2"></rect></svg>
+                    复制反馈
+                  </button>
+                  <span class="feedback-status" id="feedbackStatus"></span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="boardView">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>主题簇</h3>
+                <p>把跳跃的线索按意义归位。</p>
+              </div>
+            </div>
+            <div class="panel-body columns" id="themeColumns"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>理性框架</h3>
+                <p>把感受、判断和行动分开放置。</p>
+              </div>
+            </div>
+            <div class="panel-body framework" id="framework"></div>
+          </section>
+        </section>
+
+        <section class="view" id="libraryView">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>灵感库</h3>
+                <p>保存的整理结果会进入数据库；后端不可用时会暂存在本机浏览器。</p>
+              </div>
+              <button class="ghost-btn" id="clearBtn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 15h10l1-15"></path></svg>
+                清空
+              </button>
+            </div>
+            <div class="panel-body library-grid" id="libraryGrid"></div>
+          </section>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+    const input = $("#thoughtInput");
+    const guidedInputs = () => $$("#guidedInputs textarea");
+    const summaryCard = $("#summaryCard");
+    const stats = $("#stats");
+    const signals = $("#signals");
+    const mapArea = $("#mapArea");
+    const themeColumns = $("#themeColumns");
+    const framework = $("#framework");
+    const savedList = $("#savedList");
+    const libraryGrid = $("#libraryGrid");
+    const energyRange = $("#energyRange");
+    const energyLabel = $("#energyLabel");
+    const feedbackInput = $("#feedbackInput");
+    const feedbackStatus = $("#feedbackStatus");
+    const accountStatus = $("#accountStatus");
+    const emailInput = $("#emailInput");
+
+    const storageKey = "mind-loom-demo-records";
+    const feedbackStorageKey = "mind-loom-demo-feedback";
+    const sampleText = "我最近一直有很多关于一个思考工具的想法。它应该帮助高敏感、想象力强、情绪很细腻的人，把脑子里同时出现的画面、担心、灵感、关系线索和行动冲动都放下来。我想它不能太冷冰冰，也不能只是情绪日记。它需要先接住用户的感受，再把内容拆成事实、假设、需求和下一步。我担心产品会太复杂，也担心别人觉得这只是笔记软件。但我又觉得，如果它能把天马行空的创造力转成清楚的结构，可能会很有价值。下一步也许可以先做一个输入框、主题地图、逻辑框架和保存库。";
+    const sampleFields = {
+      "field-noise": "我最近一直有很多关于一个思考工具的想法，脑子里同时出现产品、用户、情绪和商业可能性。",
+      "field-feeling": "有点兴奋，也有点紧。兴奋是因为我觉得它真的可能帮助一类人，紧是因为我怕做出来太复杂。",
+      "field-worry": "我担心它会太像普通笔记工具，也担心用户不愿意面对自己的混乱。",
+      "field-idea": "它可以像一个温柔的思考房间，把画面、担心、灵感、关系线索和行动冲动都放在不同位置。",
+      "field-need": "我想要它既温柔又有逻辑，先接住感受，再把内容拆成事实、假设、需求和下一步。",
+      "field-step": "下一步可以先做一个输入区、主题地图、逻辑框架和保存库。",
+      "thoughtInput": "如果它能把天马行空的创造力转成清楚的结构，可能会很有价值。"
+    };
+
+    let activeMode = "gentle";
+    let current = null;
+    let records = readRecords();
+    let currentRating = 0;
+    let backendOnline = false;
+    let session = null;
+
+    const dictionaries = {
+      emotion: {
+        label: "情绪信号",
+        color: "coral",
+        words: ["担心", "害怕", "焦虑", "难过", "敏感", "委屈", "压力", "不安", "情绪", "害羞", "疲惫", "混乱"]
+      },
+      creativity: {
+        label: "创造力",
+        color: "violet",
+        words: ["灵感", "想象", "创造", "画面", "天马行空", "点子", "可能", "设计", "产品", "故事", "概念"]
+      },
+      logic: {
+        label: "逻辑结构",
+        color: "blue",
+        words: ["事实", "假设", "因为", "所以", "框架", "结构", "判断", "推理", "拆成", "整理"]
+      },
+      action: {
+        label: "行动线索",
+        color: "green",
+        words: ["下一步", "先", "可以", "需要", "试试", "做", "开始", "落地", "计划", "行动"]
+      },
+      value: {
+        label: "价值需求",
+        color: "teal",
+        words: ["价值", "意义", "重要", "需要", "关系", "自由", "安全", "被理解", "温柔", "清晰", "帮助"]
+      },
+      risk: {
+        label: "风险疑问",
+        color: "gold",
+        words: ["担心", "风险", "复杂", "问题", "但是", "怕", "不确定", "会不会", "是否", "只是"]
+      }
+    };
+
+    function readRecords() {
+      try {
+        return JSON.parse(localStorage.getItem(storageKey) || "[]");
+      } catch {
+        return [];
+      }
+    }
+
+    function writeRecords() {
+      localStorage.setItem(storageKey, JSON.stringify(records));
+      renderSaved();
+      renderLibrary();
+    }
+
+    function readFeedback() {
+      try {
+        return JSON.parse(localStorage.getItem(feedbackStorageKey) || "[]");
+      } catch {
+        return [];
+      }
+    }
+
+    function writeFeedback(items) {
+      localStorage.setItem(feedbackStorageKey, JSON.stringify(items));
+    }
+
+    function buildThoughtText() {
+      return guidedInputs()
+        .map((field) => {
+          const value = field.value.trim();
+          if (!value) return "";
+          return `${field.dataset.label}：${value}`;
+        })
+        .filter(Boolean)
+        .join("\n");
+    }
+
+    function clearGuidedInputs() {
+      guidedInputs().forEach((field) => {
+        field.value = "";
+      });
+    }
+
+    function fillGuidedInputs(values) {
+      clearGuidedInputs();
+      Object.entries(values).forEach(([id, value]) => {
+        const field = document.getElementById(id);
+        if (field) field.value = value;
+      });
+    }
+
+    async function api(path, options = {}) {
+      const response = await fetch(path, {
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+        ...options
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "请求失败");
+      return data;
+    }
+
+    function updateAccountStatus() {
+      if (!backendOnline) {
+        accountStatus.textContent = "当前为本地预览模式，记录暂存在浏览器。";
+        return;
+      }
+      if (session?.user) {
+        accountStatus.textContent = `已登录：${session.user.email}`;
+      } else {
+        accountStatus.textContent = `匿名空间：${(session?.anonymousId || "").slice(0, 14)}...`;
+      }
+    }
+
+    async function bootstrapBackend() {
+      try {
+        session = await api("/api/session");
+        backendOnline = true;
+        updateAccountStatus();
+        const data = await api("/api/thoughts");
+        records = data.thoughts || [];
+        renderSaved();
+        renderLibrary();
+      } catch {
+        backendOnline = false;
+        updateAccountStatus();
+      }
+    }
+
+    async function persistThought(record) {
+      if (!backendOnline) {
+        writeRecords();
+        return;
+      }
+      try {
+        await api("/api/thoughts", { method: "POST", body: JSON.stringify(record) });
+      } catch {
+        backendOnline = false;
+        updateAccountStatus();
+        writeRecords();
+      }
+    }
+
+    async function removeThought(id) {
+      if (!backendOnline) {
+        writeRecords();
+        return;
+      }
+      await api(`/api/thoughts/${encodeURIComponent(id)}`, { method: "DELETE" });
+    }
+
+    async function clearRemoteThoughts() {
+      if (backendOnline) await api("/api/thoughts", { method: "DELETE" });
+    }
+
+    async function persistFeedback(item) {
+      const items = readFeedback();
+      items.unshift(item);
+      writeFeedback(items.slice(0, 100));
+      if (backendOnline) {
+        await api("/api/feedback", { method: "POST", body: JSON.stringify(item) });
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[char]));
+    }
+
+    function splitThoughts(text) {
+      return text
+        .replace(/\r/g, "\n")
+        .split(/[\n。！？!?；;]+/)
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .slice(0, 18);
+    }
+
+    function countMatches(text, words) {
+      return words.reduce((sum, word) => sum + (text.includes(word) ? 1 : 0), 0);
+    }
+
+    function topThemes(fragments) {
+      const joined = fragments.join(" ");
+      const scored = Object.entries(dictionaries).map(([key, meta]) => ({
+        key,
+        ...meta,
+        score: countMatches(joined, meta.words)
+      }));
+
+      const primary = scored.filter((item) => item.score > 0).sort((a, b) => b.score - a.score);
+      return (primary.length ? primary : scored.slice(0, 3)).slice(0, 4);
+    }
+
+    function assignFragments(fragments, themes) {
+      return themes.map((theme) => ({
+        ...theme,
+        items: fragments.filter((fragment) => countMatches(fragment, dictionaries[theme.key].words) > 0).slice(0, 4)
+      })).map((theme, index) => ({
+        ...theme,
+        items: theme.items.length ? theme.items : fragments.filter((_, i) => i % themes.length === index).slice(0, 3)
+      }));
+    }
+
+    function classify(fragments, kind) {
+      const rules = {
+        facts: ["已经", "现在", "今天", "最近", "一直", "出现", "有", "没有", "看到", "发生"],
+        assumptions: ["可能", "也许", "觉得", "担心", "怕", "会不会", "是否", "好像", "不确定"],
+        needs: ["需要", "想要", "重要", "希望", "不能", "应该", "价值", "温柔", "清晰"],
+        actions: ["下一步", "先", "可以", "试试", "开始", "做", "落地", "计划", "输入框"]
+      };
+      const found = fragments.filter((fragment) => countMatches(fragment, rules[kind]) > 0);
+      return (found.length ? found : fragments).slice(0, 4);
+    }
+
+    function makeQuestions(themes, mode) {
+      const lead = {
+        gentle: "现在最需要被接住的感受是什么？",
+        logic: "这里哪一个判断还缺少证据？",
+        creative: "如果不急着收敛，哪个点子最值得继续长大？"
+      };
+      const top = themes[0]?.label || "核心主题";
+      return [
+        lead[mode],
+        `围绕“${top}”，哪些内容是事实，哪些只是预期？`,
+        "只做一个很小的下一步，哪一步会让心里更有空间？"
+      ];
+    }
+
+    function analyze(text) {
+      const fragments = splitThoughts(text);
+      const themes = assignFragments(fragments, topThemes(fragments));
+      const wordCount = text.trim().replace(/\s+/g, "").length;
+      const emotionScore = countMatches(text, dictionaries.emotion.words);
+      const actionScore = countMatches(text, dictionaries.action.words);
+      const creativityScore = countMatches(text, dictionaries.creativity.words);
+      const energy = Number(energyRange.value);
+      const pace = energy <= 2 ? "慢整理" : energy >= 4 ? "快收敛" : "稳步推进";
+
+      return {
+        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+        createdAt: new Date().toISOString(),
+        mode: activeMode,
+        energy,
+        title: makeTitle(fragments, themes),
+        source: text,
+        fragments,
+        themes,
+        stats: [
+          { label: "想法片段", value: fragments.length },
+          { label: "主题方向", value: themes.length },
+          { label: "情绪强度", value: Math.min(5, Math.max(1, emotionScore + (energy <= 2 ? 1 : 0))) },
+          { label: "行动清晰度", value: Math.min(5, Math.max(1, actionScore + Math.floor(creativityScore / 2))) }
+        ],
+        summary: makeSummary(fragments, themes, activeMode, energy),
+        signals: [
+          {
+            title: "先承认接收量很高",
+            text: fragments.length > 5 ? "这里同时有很多线索，先分层比立刻决策更合适。" : "内容量不大，适合直接抽出一个行动点。"
+          },
+          {
+            title: "当前节奏建议",
+            text: `${pace}：${energy <= 2 ? "减少选项，只保留一个最轻动作。" : energy >= 4 ? "可以快速形成原型或对外验证。" : "先拆清事实、假设和下一步。"}`
+          },
+          {
+            title: "主要张力",
+            text: activeMode === "creative" ? "创造力正在扩散，需要一个容器而不是立刻压扁。" : activeMode === "logic" ? "判断链条需要被显性化，尤其是证据和假设。" : "感受和逻辑都重要，先分开放，再重新组合。"
+          }
+        ],
+        framework: {
+          facts: classify(fragments, "facts"),
+          assumptions: classify(fragments, "assumptions"),
+          needs: classify(fragments, "needs"),
+          actions: classify(fragments, "actions"),
+          questions: makeQuestions(themes, activeMode)
+        }
+      };
+    }
+
+    function makeTitle(fragments, themes) {
+      const first = fragments[0] || "新的思考整理";
+      const short = first.length > 22 ? first.slice(0, 22) + "..." : first;
+      return `${themes[0]?.label || "思路"} · ${short}`;
+    }
+
+    function makeSummary(fragments, themes, mode, energy) {
+      const topLabels = themes.slice(0, 3).map((theme) => theme.label).join("、") || "几个还没命名的线索";
+      const opening = fragments.length > 5
+        ? "这不是单纯的混乱，而是很多线索在同一时间涌上来。"
+        : "这里已经有一个可以被看见的起点。";
+      const modeLine = {
+        gentle: "先不用急着证明什么，我们先把感受和线索分开放。",
+        logic: "接下来适合把事实、假设和证据拆开，减少脑内反复推演。",
+        creative: "这些想法里有可继续生长的东西，先给它们一个容器。"
+      }[mode];
+      const step = energy <= 2
+        ? "只选一个最轻的小动作：圈出最在意的一句话。"
+        : energy >= 4
+          ? "可以进入下一步：选一个主题做成小原型或提纲。"
+          : "先做一件事：把最重要的主题和一个可行动步骤连起来。";
+
+      return {
+        title: opening,
+        text: `我先看到的是：${topLabels}。${modeLine}`,
+        step
+      };
+    }
+
+    function render(result) {
+      current = result;
+      feedbackInput.value = "";
+      feedbackStatus.textContent = "";
+      currentRating = 0;
+      $$(".rating-btn").forEach((button) => button.classList.remove("active"));
+      renderSummary(result);
+      renderStats(result);
+      renderSignals(result);
+      renderMap(result);
+      renderThemes(result);
+      renderFramework(result);
+    }
+
+    function renderSummary(result) {
+      summaryCard.innerHTML = `
+        <p class="summary-kicker">我先这样理解</p>
+        <h3 class="summary-title">${escapeHtml(result.summary.title)}</h3>
+        <p class="summary-text">${escapeHtml(result.summary.text)}</p>
+        <div class="next-step"><strong>现在只需要：</strong>${escapeHtml(result.summary.step)}</div>
+      `;
+    }
+
+    function renderStats(result) {
+      stats.innerHTML = result.stats.map((item) => `
+        <div class="stat">
+          <b>${escapeHtml(item.value)}</b>
+          <span>${escapeHtml(item.label)}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderSignals(result) {
+      signals.innerHTML = `
+        <p class="signal-list-title">继续分层看</p>
+        ${result.signals.map((signal, index) => `
+        <div class="signal" style="border-left-color: ${["var(--coral)", "var(--teal)", "var(--blue)"][index]}">
+          <strong>${escapeHtml(signal.title)}</strong>
+          <p>${escapeHtml(signal.text)}</p>
+        </div>
+      `).join("")}
+      `;
+    }
+
+    function renderMap(result) {
+      const nodes = result.themes.map((theme, index) => {
+        const angle = (Math.PI * 2 * index) / Math.max(1, result.themes.length) - Math.PI / 2;
+        const x = 50 + Math.cos(angle) * 28;
+        const y = 50 + Math.sin(angle) * 31;
+        const size = 15 + Math.min(10, theme.items.length * 2);
+        return { ...theme, x, y, size };
+      });
+      const colorMap = {
+        teal: "#0f4f3f",
+        blue: "#47675f",
+        coral: "#8f5d4f",
+        gold: "#7d6a38",
+        violet: "#5f6d5a",
+        green: "#1f6b4d"
+      };
+      mapArea.innerHTML = `
+        <svg viewBox="0 0 100 100" role="img" aria-label="思路主题地图">
+          <defs>
+            <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#18212f" flood-opacity="0.13"/>
+            </filter>
+          </defs>
+          ${nodes.map((node) => `<line x1="50" y1="50" x2="${node.x}" y2="${node.y}" stroke="#c8d8cd" stroke-width="0.7"/>`).join("")}
+          <circle cx="50" cy="50" r="12" fill="#10392f" filter="url(#softShadow)"></circle>
+          <text x="50" y="49" text-anchor="middle" fill="#fff" font-size="4.2" font-weight="700">核心</text>
+          <text x="50" y="55" text-anchor="middle" fill="#d9e8df" font-size="3">思考场</text>
+          ${nodes.map((node) => `
+            <g>
+              <circle cx="${node.x}" cy="${node.y}" r="${node.size / 2}" fill="${colorMap[node.color] || colorMap.teal}" opacity="0.94" filter="url(#softShadow)"></circle>
+              <text x="${node.x}" y="${node.y + 1}" text-anchor="middle" fill="#fff" font-size="3.5" font-weight="700">${escapeHtml(node.label)}</text>
+              <text x="${node.x}" y="${node.y + 6}" text-anchor="middle" fill="#fff" font-size="2.8">${node.items.length} 条</text>
+            </g>
+          `).join("")}
+        </svg>
+      `;
+    }
+
+    function renderThemes(result) {
+      themeColumns.innerHTML = result.themes.slice(0, 3).map((theme) => `
+        <div class="lane">
+          <h4><span class="chip ${theme.color}">${escapeHtml(theme.label)}</span></h4>
+          <div class="lane-content">
+            ${theme.items.map((item) => `
+              <article class="thought-card">
+                <p>${escapeHtml(item)}</p>
+                <div class="chip-row">
+                  <span class="chip ${theme.color}">${escapeHtml(theme.label)}</span>
+                </div>
+              </article>
+            `).join("")}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderFramework(result) {
+      const blocks = [
+        ["事实", result.framework.facts, "已经出现或可观察的内容"],
+        ["假设", result.framework.assumptions, "脑中推测、担心或未验证判断"],
+        ["需求", result.framework.needs, "真正想被满足的东西"],
+        ["下一步", result.framework.actions, "可以推进的一小步"],
+        ["追问", result.framework.questions, "让思路继续变清楚的问题"]
+      ];
+      framework.innerHTML = blocks.map(([title, items, helper]) => `
+        <section class="frame-block">
+          <h4>${escapeHtml(title)}</h4>
+          <ul aria-label="${escapeHtml(helper)}">
+            ${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+          </ul>
+        </section>
+      `).join("");
+    }
+
+    function renderEmpty() {
+      summaryCard.innerHTML = `
+        <p class="summary-kicker">欢迎先放下</p>
+        <h3 class="summary-title">你不需要先想清楚，才值得被整理。</h3>
+        <p class="summary-text">把脑子里的词、画面、担心、灵感都写进左边。按下“开始梳理”后，我会先给一个不评判的概括，再拆成结构。</p>
+        <div class="next-step"><strong>现在只需要：</strong>随便写下第一句。</div>
+      `;
+      stats.innerHTML = `
+        <div class="stat"><b>0</b><span>想法片段</span></div>
+        <div class="stat"><b>0</b><span>主题方向</span></div>
+        <div class="stat"><b>0</b><span>情绪强度</span></div>
+        <div class="stat"><b>0</b><span>行动清晰度</span></div>
+      `;
+      signals.innerHTML = `
+        <div class="empty"><div><strong>等待一段真实想法</strong><span>写得越自然，整理结果越像你的脑内地图。</span></div></div>
+      `;
+      mapArea.innerHTML = `
+        <svg viewBox="0 0 100 100" role="img" aria-label="空白思路地图">
+          <circle cx="50" cy="50" r="16" fill="#d9e8df"></circle>
+          <path d="M34 50h32M50 34v32" stroke="#61736a" stroke-width="1.4" stroke-linecap="round"></path>
+        </svg>
+      `;
+      themeColumns.innerHTML = `<div class="empty"><div><strong>还没有主题簇</strong><span>完成一次梳理后，这里会出现结构板。</span></div></div>`;
+      framework.innerHTML = `<div class="empty"><div><strong>还没有理性框架</strong><span>事实、假设、需求和下一步会自动分区。</span></div></div>`;
+    }
+
+    function renderSaved() {
+      savedList.innerHTML = records.length ? records.slice(0, 6).map((record) => `
+        <button class="saved-item" data-load="${record.id}">
+          ${escapeHtml(record.title)}
+          <span>${new Date(record.createdAt).toLocaleString("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
+        </button>
+      `).join("") : `<div class="saved-item"><span>暂无保存</span></div>`;
+    }
+
+    function renderLibrary() {
+      if (!records.length) {
+        libraryGrid.innerHTML = `<div class="empty"><div><strong>灵感库是空的</strong><span>梳理后点击保存，就能把结果留在这里。</span></div></div>`;
+        return;
+      }
+      libraryGrid.innerHTML = records.map((record) => `
+        <article class="thought-card">
+          <div class="chip-row">
+            <span class="chip ${record.themes[0]?.color || "teal"}">${escapeHtml(record.themes[0]?.label || "思路")}</span>
+            <span class="chip">${escapeHtml(modeLabel(record.mode))}</span>
+          </div>
+          <p><strong>${escapeHtml(record.title)}</strong></p>
+          <p>${escapeHtml(record.source.slice(0, 120))}${record.source.length > 120 ? "..." : ""}</p>
+          <div class="control-row">
+            <button class="ghost-btn" data-load="${record.id}">打开</button>
+            <button class="ghost-btn" data-delete="${record.id}">删除</button>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function modeLabel(mode) {
+      return { gentle: "轻柔整理", logic: "逻辑推演", creative: "创意发散" }[mode] || "轻柔整理";
+    }
+
+    async function saveCurrent() {
+      if (!current) return;
+      records = [current, ...records.filter((record) => record.id !== current.id)].slice(0, 100);
+      renderSaved();
+      renderLibrary();
+      await persistThought(current);
+    }
+
+    function loadRecord(id) {
+      const record = records.find((item) => item.id === id);
+      if (!record) return;
+      fillGuidedInputs({ thoughtInput: record.source });
+      activeMode = record.mode;
+      $$(".segmented button").forEach((button) => button.classList.toggle("active", button.dataset.mode === activeMode));
+      render(record);
+      switchView("desk");
+    }
+
+    async function deleteRecord(id) {
+      records = records.filter((record) => record.id !== id);
+      renderSaved();
+      renderLibrary();
+      await removeThought(id);
+    }
+
+    function exportMarkdown() {
+      if (!current) return;
+      const feedbackItems = readFeedback().filter((item) => item.thoughtId === current.id);
+      const latestFeedback = feedbackItems[0];
+      const lines = [
+        `# ${current.title}`,
+        "",
+        `模式：${modeLabel(current.mode)}`,
+        `时间：${new Date(current.createdAt).toLocaleString("zh-CN")}`,
+        "",
+        "## 情绪与节奏",
+        ...current.signals.map((signal) => `- ${signal.title}：${signal.text}`),
+        "",
+        "## 主题簇",
+        ...current.themes.map((theme) => `- ${theme.label}：${theme.items.join("；")}`),
+        "",
+        "## 理性框架",
+        ...Object.entries({
+          "事实": current.framework.facts,
+          "假设": current.framework.assumptions,
+          "需求": current.framework.needs,
+          "下一步": current.framework.actions,
+          "追问": current.framework.questions
+        }).flatMap(([title, items]) => [`### ${title}`, ...items.map((item) => `- ${item}`), ""]),
+        latestFeedback ? "## 用户反馈" : "",
+        latestFeedback ? `- 评分：${latestFeedback.rating || "未评分"}` : "",
+        latestFeedback ? `- 文字：${latestFeedback.text || "未填写"}` : ""
+      ];
+      const blob = new Blob([lines.join("\n")], { type: "text/markdown;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "mind-loom-summary.md";
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function switchView(view) {
+      const titleMap = {
+        desk: ["把脑子里的东西先倒在这里", "不用完整、不用有逻辑，也不用马上变好。这里会先接住，再慢慢帮你分层。"],
+        board: ["结构板", "把想法放入主题簇和理性框架，方便判断与推进。"],
+        library: ["灵感库", "回看保存过的思考，观察自己的长期线索。"]
+      };
+      $$(".view").forEach((item) => item.classList.remove("active"));
+      $(`#${view}View`).classList.add("active");
+      $$(".nav button").forEach((button) => button.classList.toggle("active", button.dataset.view === view));
+      $("#viewTitle").textContent = titleMap[view][0];
+      $("#viewSubtitle").textContent = titleMap[view][1];
+    }
+
+    function updateEnergyLabel() {
+      energyLabel.textContent = ["", "很低", "偏低", "中等", "充足", "很满"][Number(energyRange.value)];
+    }
+
+    $("#analyzeBtn").addEventListener("click", () => {
+      let text = buildThoughtText();
+      if (!text) {
+        fillGuidedInputs(sampleFields);
+        text = buildThoughtText();
+      }
+      render(analyze(text));
+    });
+
+    $("#saveBtn").addEventListener("click", saveCurrent);
+    $("#exportBtn").addEventListener("click", exportMarkdown);
+    $("#sampleBtn").addEventListener("click", () => {
+      fillGuidedInputs(sampleFields);
+      render(analyze(buildThoughtText()));
+    });
+    $$(".prompt-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        const prefix = button.dataset.prompt;
+        const target = document.getElementById(button.dataset.target) || input;
+        target.value = target.value.trim() ? `${target.value.trim()}\n${prefix}` : prefix;
+        target.focus();
+      });
+    });
+    $("#clearBtn").addEventListener("click", async () => {
+      records = [];
+      renderSaved();
+      renderLibrary();
+      localStorage.removeItem(storageKey);
+      await clearRemoteThoughts();
+    });
+    $$(".rating-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        currentRating = Number(button.dataset.rating);
+        $$(".rating-btn").forEach((item) => item.classList.toggle("active", item === button));
+      });
+    });
+    $("#feedbackSaveBtn").addEventListener("click", async () => {
+      if (!current) {
+        feedbackStatus.textContent = "请先完成一次梳理。";
+        return;
+      }
+      await persistFeedback({
+        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+        thoughtId: current.id,
+        createdAt: new Date().toISOString(),
+        rating: currentRating,
+        text: feedbackInput.value.trim()
+      });
+      feedbackStatus.textContent = backendOnline ? "已保存到数据库。" : "后端不可用，已暂存在当前浏览器。";
+    });
+    $("#loginBtn").addEventListener("click", async () => {
+      try {
+        session = await api("/api/login", { method: "POST", body: JSON.stringify({ email: emailInput.value.trim() }) });
+        backendOnline = true;
+        updateAccountStatus();
+        const data = await api("/api/thoughts");
+        records = data.thoughts || [];
+        renderSaved();
+        renderLibrary();
+      } catch (error) {
+        accountStatus.textContent = error.message || "登录失败。";
+      }
+    });
+
+    $("#logoutBtn").addEventListener("click", async () => {
+      try {
+        await api("/api/logout", { method: "POST", body: JSON.stringify({}) });
+        session = await api("/api/session");
+        records = [];
+        updateAccountStatus();
+        renderSaved();
+        renderLibrary();
+      } catch {
+        accountStatus.textContent = "退出失败，请稍后重试。";
+      }
+    });
+
+    $("#feedbackCopyBtn").addEventListener("click", async () => {
+      if (!current) {
+        feedbackStatus.textContent = "请先完成一次梳理。";
+        return;
+      }
+      const payload = [
+        "Mind Loom — 边缘与回声 用户反馈",
+        `时间：${new Date().toLocaleString("zh-CN")}`,
+        `模式：${modeLabel(current.mode)}`,
+        `评分：${currentRating || "未评分"}`,
+        `反馈：${feedbackInput.value.trim() || "未填写"}`,
+        "",
+        "整理摘要：",
+        current.summary.title,
+        current.summary.text,
+        `下一步：${current.summary.step}`
+      ].join("\n");
+      try {
+        await navigator.clipboard.writeText(payload);
+        feedbackStatus.textContent = "反馈已复制，可以发给产品团队。";
+      } catch {
+        feedbackStatus.textContent = "复制失败，请手动选中文字反馈。";
+      }
+    });
+    $("#calmToggle").addEventListener("change", (event) => {
+      $("#app").classList.toggle("low-stimulus", event.target.checked);
+    });
+    energyRange.addEventListener("input", updateEnergyLabel);
+
+    $$(".segmented button").forEach((button) => {
+      button.addEventListener("click", () => {
+        activeMode = button.dataset.mode;
+        $$(".segmented button").forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        const text = buildThoughtText();
+        if (text) render(analyze(text));
+      });
+    });
+
+    $$(".nav button").forEach((button) => {
+      button.addEventListener("click", () => switchView(button.dataset.view));
+    });
+
+    document.addEventListener("click", (event) => {
+      const loadButton = event.target.closest("[data-load]");
+      const deleteButton = event.target.closest("[data-delete]");
+      if (loadButton) loadRecord(loadButton.dataset.load);
+      if (deleteButton) deleteRecord(deleteButton.dataset.delete);
+    });
+
+    updateEnergyLabel();
+    renderEmpty();
+    renderSaved();
+    renderLibrary();
+    bootstrapBackend();
+  </script>
+</body>
+</html>
